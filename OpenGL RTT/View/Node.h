@@ -1,32 +1,35 @@
 //
-//  Triangle.h
+//  Node.h
 //  OpenGL RTT
 //
-//  Created by David Hodgkinson on 24/11/2014.
+//  Created by David Hodgkinson on 25/11/2014.
 //  Copyright (c) 2014 David Hodgkinson. All rights reserved.
 //
 
-#ifndef __OpenGL_RTT__Triangle__
-#define __OpenGL_RTT__Triangle__
+#ifndef __OpenGL_RTT__Node__
+#define __OpenGL_RTT__Node__
 
 #include "OpenGLController.h"
 
 namespace OpenGL
 {
-    class Triangle
+    class Node
     {
     public:
-        static Triangle* Create();
+        static Node* Create();
         
         const GLuint& GetVAO() const { return _vao; }
         const GLuint& GetShaderProgram() const { return _shader; }
-    private:
-        Triangle() {}
+        
+        virtual void Draw() const;
+        virtual void Update();
+    protected:
+        Node() {}
         bool Init();
-    private:
+    protected:
         GLuint _vao;
         GLuint _shader;
     };
 }
 
-#endif /* defined(__OpenGL_RTT__Triangle__) */
+#endif /* defined(__OpenGL_RTT__Node__) */

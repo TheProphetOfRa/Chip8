@@ -6,19 +6,21 @@
 //  Copyright (c) 2014 David Hodgkinson. All rights reserved.
 //
 #include "OpenGLController.h"
-#include "Triangle.h"
+
+
+#include "Node.h"
 
 int main(int argc, const char * argv[]) {
 
     OpenGL::OpenGLController* controller = OpenGL::OpenGLController::sharedController();
     
-    auto t = OpenGL::Triangle::Create();
-    controller->addTriangle(t);
+    auto n = OpenGL::Node::Create();
+    controller->AddNode(n);
     
     //application loop
-    while (controller->update())
+    while (controller->Update())
     {
-        controller->draw();
+        controller->Draw();
     }
     
     controller->Destroy();

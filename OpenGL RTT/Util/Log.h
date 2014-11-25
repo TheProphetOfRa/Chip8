@@ -13,6 +13,8 @@
 #include <stdarg.h>
 #include <stdio.h>
 
+#include "OpenGLController.h"
+
 namespace OpenGL
 {
     namespace Log
@@ -22,7 +24,8 @@ namespace OpenGL
         void LogGLParams();
         
         bool Log(const char *message, ...);
-        bool Log_Err(const char *messag, ...);
+        bool Error(const char *messag, ...);
+        void LogShader(GLuint shaderProgram);
     }
 }
 

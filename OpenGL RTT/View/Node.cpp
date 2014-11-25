@@ -1,18 +1,18 @@
 //
-//  Triangle.cpp
+//  Node.cpp
 //  OpenGL RTT
 //
-//  Created by David Hodgkinson on 24/11/2014.
+//  Created by David Hodgkinson on 25/11/2014.
 //  Copyright (c) 2014 David Hodgkinson. All rights reserved.
 //
 
-#include "Triangle.h"
+#include "Node.h"
 
 namespace OpenGL
 {
-    Triangle* Triangle::Create()
+    Node* Node::Create()
     {
-        auto result = new Triangle();
+        auto result = new Node();
         if (result && result->Init())
         {
             return result;
@@ -22,17 +22,17 @@ namespace OpenGL
         return nullptr;
     }
     
-    bool Triangle::Init()
+    bool Node::Init()
     {
         //vertex list
         float points[] =
         {
-            -0.5f,  0.5f, 0.0f,
-             0.5f,  0.5f, 0.0f,
-             0.5f, -0.5f, 0.0f,
-             0.5f, -0.5f, 0.0f,
-            -0.5f, -0.5f, 0.0f,
-            -0.5f,  0.5f, 0.0f
+            -1.0f,  1.0f, 0.0f,
+             1.0f,  1.0f, 0.0f,
+             1.0f, -1.0f, 0.0f,
+             1.0f, -1.0f, 0.0f,
+            -1.0f, -1.0f, 0.0f,
+            -1.0f,  1.0f, 0.0f
         };
         
         float colours[] =
@@ -68,8 +68,20 @@ namespace OpenGL
         glBindBuffer(GL_ARRAY_BUFFER, colourvbo); //bind colour vbo to buffer
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, nullptr); //fill attribute 1 with vertices made of 3 GL_FLOAT
         
-        _shader = OpenGLController::sharedController()->LoadShader("triangle");
-
+        _shader = OpenGLController::sharedController()->LoadShader("colour");
+        
         return true;
+    }
+    
+    void Node::Draw() const
+    {
+        glUseProgram (_shader);
+        glBindVertexArray (_vao);
+        glDrawArrays (GL_TRIANGLES, 0, 6);
+    }
+    
+    void Node::Update()
+    {
+        
     }
 }

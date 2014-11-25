@@ -18,19 +18,19 @@
 
 namespace OpenGL
 {
-    class Triangle;
+    class Node;
     
     class OpenGLController
     {
     public:
         static OpenGLController* sharedController();
         
-        void addTriangle(Triangle* t) { _triangles.push_back(t); }
+        void AddNode(Node* n) { _nodes.push_back(n); }
         
         GLuint LoadShader(const std::string& filename) const;
         
-        bool update();
-        void draw();
+        bool Update();
+        void Draw();
         
         GLFWwindow* getWindow() const { return _window; }
         
@@ -39,6 +39,10 @@ namespace OpenGL
         OpenGLController() {}
         bool Init();
         const GLchar* LoadShaderFromFile(const std::string& fileName) const;
+        bool CheckForShaderError(const GLuint shader) const;
+        bool CheckForShaderLinkErrors(const GLuint shaderProgram) const;
+        
+        bool IsShaderValid(const GLuint shader) const;
     private:
         GLFWmonitor* _monitor;
         const GLFWvidmode* _vmode;
@@ -46,7 +50,7 @@ namespace OpenGL
         const GLubyte* _renderer;
         const GLubyte* _version;
         
-        std::vector<Triangle*> _triangles;
+        std::vector<Node*> _nodes;
     };
 }
 #endif /* defined(__OpenGL_RTT__OpenGLController__) */

@@ -14,6 +14,26 @@ namespace OpenGL
 {
     static const char * kLogFile = "gl.log";
     
+    const char* GL_type_to_string (GLenum type) {
+        switch (type) {
+            case GL_BOOL: return "bool";
+            case GL_INT: return "int";
+            case GL_FLOAT: return "float";
+            case GL_FLOAT_VEC2: return "vec2";
+            case GL_FLOAT_VEC3: return "vec3";
+            case GL_FLOAT_VEC4: return "vec4";
+            case GL_FLOAT_MAT2: return "mat2";
+            case GL_FLOAT_MAT3: return "mat3";
+            case GL_FLOAT_MAT4: return "mat4";
+            case GL_SAMPLER_2D: return "sampler2D";
+            case GL_SAMPLER_3D: return "sampler3D";
+            case GL_SAMPLER_CUBE: return "samplerCube";
+            case GL_SAMPLER_2D_SHADOW: return "sampler2DShadow";
+            default: break;
+        }
+        return "other";
+    }
+    
     bool Log::Restart()
     {
         FILE* file = fopen(kLogFile, "w");
@@ -60,7 +80,6 @@ namespace OpenGL
             "GL_STEREO",
         };
         Log("GL Context Params:\n");
-        char msg[256];
         // integers - only works if the order is 0-10 integer return types
         for (int i = 0; i < 10; i++) {
             int v = 0;
@@ -94,7 +113,7 @@ namespace OpenGL
         return true;
     }
     
-    bool Log::Log_Err(const char* message, ...)
+    bool Log::Error(const char* message, ...)
     {
         va_list argptr;
         FILE* file = fopen (kLogFile, "a");
@@ -111,5 +130,78 @@ namespace OpenGL
         va_end (argptr);
         fclose (file);
         return true;
+    }
+    
+    void Log::LogShader(GLuint shaderProgram)
+    {
+        Log("--------------------\nshader programme %i info:\n", shaderProgram);
+        int params = -1;
+        glGetProgramiv (shaderProgram, GL_LINK_STATUS, &params);
+        Log("GL_LINK_STATUS = %i\n", params);
+        
+        glGetProgramiv (shaderProgram, GL_ATTACHED_SHADERS, &params);
+        Log("GL_ATTACHED_SHADERS = %i\n", params);
+        
+        glGetProgramiv (shaderProgram, GL_ACTIVE_ATTRIBUTES, &params);
+        Log("GL_ACTIVE_ATTRIBUTES = %i\n", params);
+        
+        for (int i = 0; i < params; i++)
+        {
+            char name[64];
+            int max_length = 64;
+            int actual_length = 0;
+            int size = 0;
+            GLenum type;
+            glGetActiveAttrib (shaderProgram, i, max_length, &actual_length, &size, &type, name);
+            if (size > 1)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    char long_name[64];
+                    Log(long_name, "%s[%i]", name, j);
+                    int location = glGetAttribLocation (shaderProgram, long_name);
+                    Log("  %i) type:%s name:%s location:%i\n", i, GL_type_to_string (type), long_name, location);
+                }
+            }
+            else
+            {
+                int location = glGetAttribLocation (shaderProgram, name);
+                Log("  %i) type:%s name:%s location:%i\n", i, GL_type_to_string (type), name, location);
+            }
+        }
+        
+        glGetProgramiv (shaderProgram, GL_ACTIVE_UNIFORMS, &params);
+        Log("GL_ACTIVE_UNIFORMS = %i\n", params);
+        for (int i = 0; i < params; i++)
+        {
+            char name[64];
+            int max_length = 64;
+            int actual_length = 0;
+            int size = 0;
+            GLenum type;
+            glGetActiveUniform (shaderProgram, i, max_length, &actual_length, &size, &type, name);
+            if (size > 1)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    char long_name[64];
+                    Log(long_name, "%s[%i]", name, j);
+                    int location = glGetUniformLocation (shaderProgram, long_name);
+                    Log("  %i) type:%s name:%s location:%i\n",
+                            i, GL_type_to_string (type), long_name, location);
+                }
+            }
+            else
+            {
+                int location = glGetUniformLocation (shaderProgram, name);
+                Log("  %i) type:%s name:%s location:%i\n", i, GL_type_to_string (type), name, location);
+            }
+        }
+        
+        int max_length = 2048;
+        int actual_length = 0;
+        char log[2048];
+        glGetProgramInfoLog (shaderProgram, max_length, &actual_length, log);
+        Log("program info log for GL index %u:\n%s", shaderProgram, log);
     }
 }
