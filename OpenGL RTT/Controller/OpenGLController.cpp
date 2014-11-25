@@ -8,6 +8,7 @@
 
 #include "OpenGLController.h"
 
+#include "Log.h"
 #include "Triangle.h"
 
 #include <assert.h>
@@ -18,6 +19,11 @@
 namespace OpenGL
 {
     static OpenGLController* sharedInstance = nullptr;
+    
+    void GLFWError(int error, const char *desc)
+    {
+        Log::Log_Err("GLFW Error: code %i, msg %s\n", error, desc);
+    }
     
     OpenGLController* OpenGLController::sharedController()
     {
@@ -40,6 +46,11 @@ namespace OpenGL
     
     bool OpenGLController::Init()
     {
+        assert(Log::Restart());
+        
+        Log::Log("Starting GLFW\n%s\n", glfwGetVersionString ());
+        
+        glfwSetErrorCallback(GLFWError);
         //start GL Context and OS Window using glfw
         if (!glfwInit())
         {
@@ -47,12 +58,17 @@ namespace OpenGL
             return false;
         }
         
+        //hints for turning on opengl features
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_SAMPLES, 4); //4 anti-aliasing passes
         
-        _window = glfwCreateWindow(640, 480, "OpenGL Application", nullptr, nullptr);
+        //Setup window
+        _monitor = glfwGetPrimaryMonitor();
+        _vmode = glfwGetVideoMode(_monitor);
+        _window = glfwCreateWindow(_vmode->width, _vmode->height, "OpenGL Application", _monitor, nullptr);
         if (!_window)
         {
             fprintf(stderr, "Error: Could not open window with GLFW3\n");
@@ -60,6 +76,8 @@ namespace OpenGL
             return false;
         }
         glfwMakeContextCurrent(_window);
+        
+        Log::LogGLParams();
         
         //start GLEW extension handler
         glewExperimental = GL_TRUE;
@@ -78,30 +96,31 @@ namespace OpenGL
         return true;
     }
     
+    const GLchar* OpenGLController::LoadShaderFromFile(const std::string &fileName) const
+    {
+        //load file to string
+        std::ifstream shaderInputStream(fileName.c_str());
+        std::string shaderString((std::istreambuf_iterator<char>(shaderInputStream)), std::istreambuf_iterator<char>());
+        return shaderString.c_str();
+    }
+    
     GLuint OpenGLController::LoadShader(const std::string &fileName) const
     {
         GLuint shader = glCreateProgram();
-        
+     
+        //load vertex shader
         GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-        std::string vfilename = fileName + "_vert.glsl";
-        std::ifstream vt(vfilename.c_str());
-        std::string vstr((std::istreambuf_iterator<char>(vt)),
-                   std::istreambuf_iterator<char>());
-        const GLchar* vert_shader = vstr.c_str();
-        printf("Vertex Shader: %s\n", vstr.c_str());
+        const GLchar* vert_shader = LoadShaderFromFile(fileName + "_vert.glsl");
         glShaderSource(vs, 1, &vert_shader, nullptr);
         glCompileShader(vs);
         
+        //load fragment shader
         GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
-        std::string ffilename = fileName + "_frag.glsl";
-        std::ifstream ft(vfilename.c_str());
-        std::string fstr((std::istreambuf_iterator<char>(ft)),
-                   std::istreambuf_iterator<char>());
-        const GLchar* frag_shader = fstr.c_str();
-        printf("Fragment Shader: %s\n", fstr.c_str());
+        const GLchar* frag_shader = LoadShaderFromFile(fileName + "_frag.glsl");
         glShaderSource(fs, 1, &frag_shader, nullptr);
         glCompileShader(fs);
         
+        //oad them into shader program
         glAttachShader(shader, fs);
         glAttachShader(shader, vs);
         glLinkProgram(shader);
@@ -111,28 +130,34 @@ namespace OpenGL
     
     bool OpenGLController::update()
     {
-
+        // update other events like input handling
+        glfwPollEvents();
+        
+        //close window when escape is pressed
+        if (GLFW_PRESS == glfwGetKey (_window, GLFW_KEY_ESCAPE))
+        {
+            glfwSetWindowShouldClose (_window, 1);
+        }
+        
         return !glfwWindowShouldClose(_window);
     }
     
-    void OpenGLController::draw() const
+    void OpenGLController::draw()
     {
         glClearColor(0.6f, 0.6f, 0.6f, 0.8f);
         
+        // wipe the drawing surface clear
+        glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
         for (const auto t : _triangles)
         {
-            //clear the screen
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            
-            glUseProgram(t->GetShaderProgram());
-            glBindVertexArray(t->GetVAO());
-            
-            glDrawArrays(GL_TRIANGLES, 0, 3);
-            // update other events like input handling
-            glfwPollEvents();
-            //draw buffers to the display
-            glfwSwapBuffers(_window);
+            glUseProgram (t->GetShaderProgram());
+            glBindVertexArray (t->GetVAO());
+            glDrawArrays (GL_TRIANGLES, 0, 3);
         }
+
+        // put the stuff we've been drawing onto the display
+        glfwSwapBuffers (_window);
     }
     
     void OpenGLController::Destroy()

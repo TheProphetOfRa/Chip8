@@ -16,6 +16,7 @@
 		5FDB49341A23E042004B7CA5 /* Triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB49321A23E042004B7CA5 /* Triangle.cpp */; };
 		5FDB49351A23EC17004B7CA5 /* triangle_frag.glsl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5FDB492F1A23D7B9004B7CA5 /* triangle_frag.glsl */; };
 		5FDB49361A23EC17004B7CA5 /* triangle_vert.glsl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5FDB49301A23D7B9004B7CA5 /* triangle_vert.glsl */; };
+		5FDB493A1A24AEA6004B7CA5 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB49381A24AEA6004B7CA5 /* Log.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,6 +46,8 @@
 		5FDB49301A23D7B9004B7CA5 /* triangle_vert.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = triangle_vert.glsl; sourceTree = "<group>"; };
 		5FDB49321A23E042004B7CA5 /* Triangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Triangle.cpp; sourceTree = "<group>"; };
 		5FDB49331A23E042004B7CA5 /* Triangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Triangle.h; sourceTree = "<group>"; };
+		5FDB49381A24AEA6004B7CA5 /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Log.cpp; sourceTree = "<group>"; };
+		5FDB49391A24AEA6004B7CA5 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +85,7 @@
 		5FDB49141A23A815004B7CA5 /* OpenGL RTT */ = {
 			isa = PBXGroup;
 			children = (
+				5FDB49371A24AE92004B7CA5 /* Util */,
 				5FDB49231A23C3D1004B7CA5 /* Controller */,
 				5FDB49151A23A815004B7CA5 /* main.cpp */,
 				5FDB492C1A23D401004B7CA5 /* Shaders */,
@@ -126,6 +130,15 @@
 				5FDB49331A23E042004B7CA5 /* Triangle.h */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		5FDB49371A24AE92004B7CA5 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				5FDB49381A24AEA6004B7CA5 /* Log.cpp */,
+				5FDB49391A24AEA6004B7CA5 /* Log.h */,
+			);
+			path = Util;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -186,6 +199,7 @@
 			files = (
 				5FDB49261A23C3E2004B7CA5 /* OpenGLController.cpp in Sources */,
 				5FDB49341A23E042004B7CA5 /* Triangle.cpp in Sources */,
+				5FDB493A1A24AEA6004B7CA5 /* Log.cpp in Sources */,
 				5FDB49161A23A815004B7CA5 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

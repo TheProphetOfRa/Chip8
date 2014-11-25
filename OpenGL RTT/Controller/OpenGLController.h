@@ -25,25 +25,28 @@ namespace OpenGL
     public:
         static OpenGLController* sharedController();
         
-        void addTriangle(const Triangle* t) { _triangles.push_back(t); }
+        void addTriangle(Triangle* t) { _triangles.push_back(t); }
         
-        GLuint LoadShader(const std::string& fileName) const;
+        GLuint LoadShader(const std::string& filename) const;
         
         bool update();
-        void draw() const;
+        void draw();
         
-        GLFWwindow* getWindow() const { return  _window; }
+        GLFWwindow* getWindow() const { return _window; }
         
         void Destroy();
     private:
         OpenGLController() {}
         bool Init();
+        const GLchar* LoadShaderFromFile(const std::string& fileName) const;
     private:
+        GLFWmonitor* _monitor;
+        const GLFWvidmode* _vmode;
         GLFWwindow* _window;
         const GLubyte* _renderer;
         const GLubyte* _version;
         
-        std::vector<const Triangle*> _triangles;
+        std::vector<Triangle*> _triangles;
     };
 }
 #endif /* defined(__OpenGL_RTT__OpenGLController__) */
