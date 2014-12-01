@@ -66,9 +66,15 @@ namespace OpenGL
         glfwWindowHint(GLFW_SAMPLES, 4); //4 anti-aliasing passes
         
         //Setup window
-        _monitor = glfwGetPrimaryMonitor();
-        _vmode = glfwGetVideoMode(_monitor);
-        _window = glfwCreateWindow(_vmode->width, _vmode->height, "OpenGL Application", _monitor, nullptr);
+        if (_windowed)
+        {
+            _window = glfwCreateWindow(640, 480, "OpenGL", nullptr, nullptr);
+        }
+        else
+        {
+            _monitor = glfwGetPrimaryMonitor();
+            _vmode = glfwGetVideoMode(_monitor);
+            _window = glfwCreateWindow(_vmode->width, _vmode->height, "OpenGL Application", _monitor, nullptr);        }
         if (!_window)
         {
             fprintf(stderr, "Error: Could not open window with GLFW3\n");
@@ -96,12 +102,12 @@ namespace OpenGL
         return true;
     }
     
-    const GLchar* OpenGLController::LoadShaderFromFile(const std::string &fileName) const
+    std::string OpenGLController::LoadShaderFromFile(const std::string &fileName) const
     {
         //load file to string
         std::ifstream shaderInputStream(fileName.c_str());
         std::string shaderString((std::istreambuf_iterator<char>(shaderInputStream)), std::istreambuf_iterator<char>());
-        return shaderString.c_str();
+        return shaderString;
     }
     
     bool OpenGLController::CheckForShaderError(const GLuint shader) const
@@ -144,15 +150,17 @@ namespace OpenGL
      
         //load vertex shader
         GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-        const GLchar* vert_shader = LoadShaderFromFile(fileName + "_vs.glsl");
-        glShaderSource(vs, 1, &vert_shader, nullptr);
+        std::string vert_shader = LoadShaderFromFile(fileName + "_vs.glsl");
+        const GLchar *vert = vert_shader.c_str();
+        glShaderSource(vs, 1, &vert, nullptr);
         glCompileShader(vs);
         CheckForShaderError(vs);
         
         //load fragment shader
         GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
-        const GLchar* frag_shader = LoadShaderFromFile(fileName + "_fs.glsl");
-        glShaderSource(fs, 1, &frag_shader, nullptr);
+        std::string frag_shader = LoadShaderFromFile(fileName + "_fs.glsl");
+        const GLchar* frag = frag_shader.c_str();
+        glShaderSource(fs, 1, &frag, nullptr);
         glCompileShader(fs);
         CheckForShaderError(fs);
         
@@ -160,6 +168,7 @@ namespace OpenGL
         glAttachShader(shader, fs);
         glAttachShader(shader, vs);
         glLinkProgram(shader);
+        IsShaderProgramValid(shader);
         CheckForShaderLinkErrors(shader);
         
         return shader;
@@ -204,7 +213,7 @@ namespace OpenGL
         glfwSwapBuffers (_window);
     }
     
-    bool OpenGLController::IsShaderValid(const GLuint shader) const
+    bool OpenGLController::IsShaderProgramValid(const GLuint shader) const
     {
         glValidateProgram (shader);
         int params = -1;

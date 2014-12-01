@@ -38,17 +38,19 @@ namespace OpenGL
     private:
         OpenGLController() {}
         bool Init();
-        const GLchar* LoadShaderFromFile(const std::string& fileName) const;
+        std::string LoadShaderFromFile(const std::string& fileName) const;
         bool CheckForShaderError(const GLuint shader) const;
         bool CheckForShaderLinkErrors(const GLuint shaderProgram) const;
         
-        bool IsShaderValid(const GLuint shader) const;
+        bool IsShaderProgramValid(const GLuint shader) const;
     private:
         GLFWmonitor* _monitor;
         const GLFWvidmode* _vmode;
         GLFWwindow* _window;
         const GLubyte* _renderer;
         const GLubyte* _version;
+        
+        bool _windowed = true;
         
         std::vector<Node*> _nodes;
     };

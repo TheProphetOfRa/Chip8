@@ -29,6 +29,7 @@ namespace OpenGL
     protected:
         GLuint _vao;
         GLuint _shader;
+        GLuint _tex;
     };
 }
 

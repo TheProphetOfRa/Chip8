@@ -7,12 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5FD44E9F1A2670B100A6BFA9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FD44E9E1A2670B100A6BFA9 /* main.cpp */; };
+		5FD44EA31A26714C00A6BFA9 /* Shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5FD44EA21A26714300A6BFA9 /* Shaders */; };
+		5FD44EA61A26716300A6BFA9 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FD44EA41A26716300A6BFA9 /* Application.cpp */; };
 		5FD7C2A31A2533D9007756B7 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FD7C2A11A2533D9007756B7 /* Node.cpp */; };
-		5FD7C2A61A253536007756B7 /* base_fs.glsl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5FD7C2A41A253527007756B7 /* base_fs.glsl */; };
-		5FD7C2AC1A254265007756B7 /* base_vs.glsl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5FD7C2A81A253D0E007756B7 /* base_vs.glsl */; };
-		5FD7C2AD1A254265007756B7 /* colour_fs.glsl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5FD7C2AA1A253D55007756B7 /* colour_fs.glsl */; };
-		5FD7C2AE1A254265007756B7 /* colour_vs.glsl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5FD7C2A91A253D4A007756B7 /* colour_vs.glsl */; };
-		5FDB49161A23A815004B7CA5 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB49151A23A815004B7CA5 /* main.cpp */; };
 		5FDB491D1A23A908004B7CA5 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FDB491C1A23A908004B7CA5 /* OpenGL.framework */; };
 		5FDB491F1A23A96F004B7CA5 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FDB491E1A23A96F004B7CA5 /* GLUT.framework */; };
 		5FDB49261A23C3E2004B7CA5 /* OpenGLController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB49241A23C3E2004B7CA5 /* OpenGLController.cpp */; };
@@ -28,24 +26,20 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				5FD7C2AC1A254265007756B7 /* base_vs.glsl in CopyFiles */,
-				5FD7C2AD1A254265007756B7 /* colour_fs.glsl in CopyFiles */,
-				5FD7C2AE1A254265007756B7 /* colour_vs.glsl in CopyFiles */,
-				5FD7C2A61A253536007756B7 /* base_fs.glsl in CopyFiles */,
+				5FD44EA31A26714C00A6BFA9 /* Shaders in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5FD44E9E1A2670B100A6BFA9 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		5FD44EA21A26714300A6BFA9 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
+		5FD44EA41A26716300A6BFA9 /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
+		5FD44EA51A26716300A6BFA9 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		5FD7C2A11A2533D9007756B7 /* Node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
 		5FD7C2A21A2533D9007756B7 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
-		5FD7C2A41A253527007756B7 /* base_fs.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = base_fs.glsl; sourceTree = "<group>"; };
-		5FD7C2A81A253D0E007756B7 /* base_vs.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = base_vs.glsl; sourceTree = "<group>"; };
-		5FD7C2A91A253D4A007756B7 /* colour_vs.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = colour_vs.glsl; sourceTree = "<group>"; };
-		5FD7C2AA1A253D55007756B7 /* colour_fs.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = colour_fs.glsl; sourceTree = "<group>"; };
 		5FDB49121A23A815004B7CA5 /* OpenGL RTT */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "OpenGL RTT"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5FDB49151A23A815004B7CA5 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		5FDB491C1A23A908004B7CA5 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		5FDB491E1A23A96F004B7CA5 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		5FDB49241A23C3E2004B7CA5 /* OpenGLController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGLController.cpp; sourceTree = "<group>"; };
@@ -71,11 +65,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5FD44EA11A26713600A6BFA9 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				5FD44EA41A26716300A6BFA9 /* Application.cpp */,
+				5FD44EA51A26716300A6BFA9 /* Application.h */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
 		5FDB49091A23A815004B7CA5 = {
 			isa = PBXGroup;
 			children = (
-				5FDB492B1A23C820004B7CA5 /* Frameworks */,
+				5FD44EA11A26713600A6BFA9 /* App */,
 				5FDB49141A23A815004B7CA5 /* OpenGL RTT */,
+				5FD44E9E1A2670B100A6BFA9 /* main.cpp */,
+				5FDB492B1A23C820004B7CA5 /* Frameworks */,
 				5FDB49131A23A815004B7CA5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -92,8 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				5FDB49231A23C3D1004B7CA5 /* Controller */,
-				5FDB49151A23A815004B7CA5 /* main.cpp */,
-				5FDB492C1A23D401004B7CA5 /* Shaders */,
+				5FD44EA21A26714300A6BFA9 /* Shaders */,
 				5FDB49371A24AE92004B7CA5 /* Util */,
 				5FDB49311A23E033004B7CA5 /* View */,
 			);
@@ -118,17 +122,6 @@
 				5FDB491C1A23A908004B7CA5 /* OpenGL.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		5FDB492C1A23D401004B7CA5 /* Shaders */ = {
-			isa = PBXGroup;
-			children = (
-				5FD7C2A41A253527007756B7 /* base_fs.glsl */,
-				5FD7C2A81A253D0E007756B7 /* base_vs.glsl */,
-				5FD7C2AA1A253D55007756B7 /* colour_fs.glsl */,
-				5FD7C2A91A253D4A007756B7 /* colour_vs.glsl */,
-			);
-			path = Shaders;
 			sourceTree = "<group>";
 		};
 		5FDB49311A23E033004B7CA5 /* View */ = {
@@ -207,7 +200,8 @@
 			files = (
 				5FDB49261A23C3E2004B7CA5 /* OpenGLController.cpp in Sources */,
 				5FDB493A1A24AEA6004B7CA5 /* Log.cpp in Sources */,
-				5FDB49161A23A815004B7CA5 /* main.cpp in Sources */,
+				5FD44EA61A26716300A6BFA9 /* Application.cpp in Sources */,
+				5FD44E9F1A2670B100A6BFA9 /* main.cpp in Sources */,
 				5FD7C2A31A2533D9007756B7 /* Node.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
