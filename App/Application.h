@@ -9,7 +9,9 @@
 #ifndef __OpenGL_RTT__Application__
 #define __OpenGL_RTT__Application__
 
+#include "cpu.h"
 #include "OpenGLController.h"
+#include "Node.h"
 
 namespace Application
 {
@@ -24,6 +26,8 @@ namespace Application
         bool Init();
     private:
         OpenGL::OpenGLController *_glController;
+        OpenGL::Node *_node;
+        Chip8::CPU *_cpu;
     };
 }
 #endif /* defined(__OpenGL_RTT__Application__) */

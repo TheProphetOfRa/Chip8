@@ -50,7 +50,7 @@ namespace OpenGL
         const GLubyte* _renderer;
         const GLubyte* _version;
         
-        bool _windowed = true;
+        bool _windowed = false;
         
         std::vector<Node*> _nodes;
     };

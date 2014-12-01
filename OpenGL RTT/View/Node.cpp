@@ -37,12 +37,12 @@ namespace OpenGL
         
         float uv[] =
         {
-            0.0f, 1.0f,
-            1.0f, 1.0f,
-            1.0f, 0.0f,
-            1.0f, 0.0f,
             0.0f, 0.0f,
-            0.0f, 1.0f
+            1.0f, 0.0f,
+            1.0f, 1.0f,
+            1.0f, 1.0f,
+            0.0f, 1.0f,
+            0.0f, 0.0f
         };
         
         float data[64*32][4];
@@ -101,5 +101,20 @@ namespace OpenGL
     void Node::Update()
     {
         
+    }
+    
+    void Node::DrawTexture(const float *data)
+    {
+        float drawData[64*32][4];
+        for (int i = 0 ; i < 64*32 ; ++i)
+        {
+            for (int j = 0 ; j < 4 ; ++j)
+            {
+                drawData[i][j] = (GLubyte)data[i];
+            }
+        }
+        
+        glBindTexture(GL_TEXTURE_2D, _tex);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 64, 32, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
     }
 }

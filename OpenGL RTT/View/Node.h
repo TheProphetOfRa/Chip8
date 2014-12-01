@@ -23,6 +23,8 @@ namespace OpenGL
         
         virtual void Draw() const;
         virtual void Update();
+        
+        virtual void DrawTexture(const float * data);
     protected:
         Node() {}
         bool Init();

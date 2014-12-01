@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F9C1ADE1A2D343200FC5702 /* cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F9C1ADC1A2D343200FC5702 /* cpu.cpp */; };
 		5FD44E9F1A2670B100A6BFA9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FD44E9E1A2670B100A6BFA9 /* main.cpp */; };
 		5FD44EA31A26714C00A6BFA9 /* Shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5FD44EA21A26714300A6BFA9 /* Shaders */; };
 		5FD44EA61A26716300A6BFA9 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FD44EA41A26716300A6BFA9 /* Application.cpp */; };
@@ -33,6 +34,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5F9C1ADC1A2D343200FC5702 /* cpu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cpu.cpp; sourceTree = "<group>"; };
+		5F9C1ADD1A2D343200FC5702 /* cpu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cpu.h; sourceTree = "<group>"; };
+		5F9C1ADF1A2D350000FC5702 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
 		5FD44E9E1A2670B100A6BFA9 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		5FD44EA21A26714300A6BFA9 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
 		5FD44EA41A26716300A6BFA9 /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
@@ -65,6 +69,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5F9C1ADB1A2D343200FC5702 /* Chip8 */ = {
+			isa = PBXGroup;
+			children = (
+				5F9C1ADC1A2D343200FC5702 /* cpu.cpp */,
+				5F9C1ADD1A2D343200FC5702 /* cpu.h */,
+			);
+			path = Chip8;
+			sourceTree = "<group>";
+		};
 		5FD44EA11A26713600A6BFA9 /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -78,10 +91,12 @@
 			isa = PBXGroup;
 			children = (
 				5FD44EA11A26713600A6BFA9 /* App */,
-				5FDB49141A23A815004B7CA5 /* OpenGL RTT */,
-				5FD44E9E1A2670B100A6BFA9 /* main.cpp */,
+				5F9C1ADB1A2D343200FC5702 /* Chip8 */,
 				5FDB492B1A23C820004B7CA5 /* Frameworks */,
+				5FD44E9E1A2670B100A6BFA9 /* main.cpp */,
+				5FDB49141A23A815004B7CA5 /* OpenGL RTT */,
 				5FDB49131A23A815004B7CA5 /* Products */,
+				5F9C1ADF1A2D350000FC5702 /* Resources */,
 			);
 			sourceTree = "<group>";
 		};
@@ -198,6 +213,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F9C1ADE1A2D343200FC5702 /* cpu.cpp in Sources */,
 				5FDB49261A23C3E2004B7CA5 /* OpenGLController.cpp in Sources */,
 				5FDB493A1A24AEA6004B7CA5 /* Log.cpp in Sources */,
 				5FD44EA61A26716300A6BFA9 /* Application.cpp in Sources */,

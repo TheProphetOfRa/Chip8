@@ -8,8 +8,6 @@
 
 #include "Application.h"
 
-#include "Node.h"
-
 namespace Application
 {
     Application* Application::Create()
@@ -26,8 +24,12 @@ namespace Application
     {
         _glController = OpenGL::OpenGLController::sharedController();
         
-        auto n = OpenGL::Node::Create();
-        _glController->AddNode(n);
+        _cpu = new Chip8::CPU();
+        _cpu->init();
+        _cpu->loadGame("Resources/invaders.c8");
+        
+        _node = OpenGL::Node::Create();
+        _glController->AddNode(_node);
         
         return true;
     }
@@ -37,6 +39,24 @@ namespace Application
         //application loop
         while (_glController->Update())
         {
+            _cpu->emulateCycle();
+            if (_cpu->shouldDraw())
+            {
+                float data[64*32];
+                const unsigned char * gfx = _cpu->getGfx();
+                for (int i = 0 ; i < 64 * 32 ; ++i)
+                {
+                    if (gfx[i] == 1)
+                    {
+                        data[i] = 255.0f;
+                    }
+                    else
+                    {
+                        data[i] = 0.0f;
+                    }
+                }
+                _node->DrawTexture(data);
+            }
             _glController->Draw();
         }
         
