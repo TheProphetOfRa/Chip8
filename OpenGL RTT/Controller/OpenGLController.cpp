@@ -174,7 +174,7 @@ namespace OpenGL
         return shader;
     }
     
-    bool OpenGLController::Update()
+    bool OpenGLController::Update(std::vector<bool> &keys)
     {
         // update other events like input handling
         glfwPollEvents();
@@ -189,6 +189,24 @@ namespace OpenGL
         {
             glfwSetWindowShouldClose (_window, 1);
         }
+        
+        keys[0] = glfwGetKey(_window, GLFW_KEY_1) == GLFW_PRESS;
+        keys[1] = glfwGetKey(_window, GLFW_KEY_2) == GLFW_PRESS;
+        keys[2] = glfwGetKey(_window, GLFW_KEY_3) == GLFW_PRESS;
+        keys[3] = glfwGetKey(_window, GLFW_KEY_4) == GLFW_PRESS;
+        keys[4] = glfwGetKey(_window, GLFW_KEY_Q) == GLFW_PRESS;
+        keys[5] = glfwGetKey(_window, GLFW_KEY_W) == GLFW_PRESS;
+        keys[6] = glfwGetKey(_window, GLFW_KEY_E) == GLFW_PRESS;
+        keys[7] = glfwGetKey(_window, GLFW_KEY_R) == GLFW_PRESS;
+        keys[8] = glfwGetKey(_window, GLFW_KEY_A) == GLFW_PRESS;
+        keys[9] = glfwGetKey(_window, GLFW_KEY_S) == GLFW_PRESS;
+        keys[10] = glfwGetKey(_window, GLFW_KEY_D) == GLFW_PRESS;
+        keys[11] = glfwGetKey(_window, GLFW_KEY_F) == GLFW_PRESS;
+        keys[12] = glfwGetKey(_window, GLFW_KEY_Z) == GLFW_PRESS;
+        keys[13] = glfwGetKey(_window, GLFW_KEY_X) == GLFW_PRESS;
+        keys[14] = glfwGetKey(_window, GLFW_KEY_C) == GLFW_PRESS;
+        keys[15] = glfwGetKey(_window, GLFW_KEY_V) == GLFW_PRESS;
+        
         
         return !glfwWindowShouldClose(_window);
     }

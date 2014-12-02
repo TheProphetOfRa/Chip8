@@ -29,7 +29,7 @@ namespace OpenGL
         
         GLuint LoadShader(const std::string& filename) const;
         
-        bool Update();
+        bool Update(std::vector<bool> &keys);
         void Draw();
         
         GLFWwindow* getWindow() const { return _window; }
@@ -50,7 +50,7 @@ namespace OpenGL
         const GLubyte* _renderer;
         const GLubyte* _version;
         
-        bool _windowed = false;
+        bool _windowed = true;
         
         std::vector<Node*> _nodes;
     };

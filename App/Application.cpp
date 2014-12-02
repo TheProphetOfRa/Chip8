@@ -26,10 +26,12 @@ namespace Application
         
         _cpu = new Chip8::CPU();
         _cpu->init();
-        _cpu->loadGame("Resources/invaders.c8");
+        _cpu->loadGame("Resources/pong2.c8");
         
         _node = OpenGL::Node::Create();
         _glController->AddNode(_node);
+        
+        for (int i = 0 ; i < 16 ; ++i) _keys.push_back(false);
         
         return true;
     }
@@ -37,8 +39,19 @@ namespace Application
     void Application::MainLoop()
     {
         //application loop
-        while (_glController->Update())
+        while (_glController->Update(_keys))
         {
+            for (int i = 0 ; i < _keys.size() ; ++i)
+            {
+                if (_keys[i])
+                {
+                    _cpu->setKey(i);
+                }
+                else
+                {
+                    _cpu->resetKey(i);
+                }
+            }
             _cpu->emulateCycle();
             if (_cpu->shouldDraw())
             {

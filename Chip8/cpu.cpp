@@ -391,117 +391,117 @@ namespace Chip8
         return rtn;
     }
 
-//    void CPU::setKey(cocos2d::EventKeyboard::KeyCode c)
-//    {
-//        switch(c)
-//        {
-//            case cocos2d::EventKeyboard::KeyCode::KEY_1:
-//                keys[0x1] = 1;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_2:
-//                keys[0x2] = 1;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_3:
-//                keys[0x3] = 1;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_4:
-//                keys[0xc] = 1;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_Q:
-//                keys[0x4] = 1;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_W:
-//                keys[0x5] = 1;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_E:
-//                keys[0x6] = 1;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_R:
-//                keys[0xd] = 1;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_A:
-//                keys[0x7] = 1;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_S:
-//                keys[0x8] = 1;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_D:
-//                keys[0x9] = 1;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_F:
-//                keys[0xe] = 1;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_Z:
-//                keys[0xa] = 1;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_X:
-//                keys[0x0] = 1;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_C:
-//                keys[0xb] = 1;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_V:
-//                keys[0xf] = 1;
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-//    
-//    void CPU::resetKey(cocos2d::EventKeyboard::KeyCode code)
-//    {
-//        switch(code)
-//        {
-//            case cocos2d::EventKeyboard::KeyCode::KEY_1:
-//                keys[0x1] = 0;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_2:
-//                keys[0x2] = 0;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_3:
-//                keys[0x3] = 0;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_4:
-//                keys[0xc] = 0;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_Q:
-//                keys[0x4] = 0;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_W:
-//                keys[0x5] = 0;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_E:
-//                keys[0x6] = 0;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_R:
-//                keys[0xd] = 0;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_A:
-//                keys[0x7] = 0;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_S:
-//                keys[0x8] = 0;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_D:
-//                keys[0x9] = 0;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_F:
-//                keys[0xe] = 0;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_Z:
-//                keys[0xa] = 0;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_X:
-//                keys[0x0] = 0;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_C:
-//                keys[0xb] = 0;
-//                break;
-//            case cocos2d::EventKeyboard::KeyCode::KEY_V:
-//                keys[0xf] = 0;
-//                break;
-//            default:
-//                break;
-//        }
-//    }
+    void CPU::setKey(int c)
+    {
+        switch(c)
+        {
+            case 0:
+                keys[0x1] = 1;
+                break;
+            case 1:
+                keys[0x2] = 1;
+                break;
+            case 2:
+                keys[0x3] = 1;
+                break;
+            case 3:
+                keys[0xc] = 1;
+                break;
+            case 4:
+                keys[0x4] = 1;
+                break;
+            case 5:
+                keys[0x5] = 1;
+                break;
+            case 6:
+                keys[0x6] = 1;
+                break;
+            case 7:
+                keys[0xd] = 1;
+                break;
+            case 8:
+                keys[0x7] = 1;
+                break;
+            case 9:
+                keys[0x8] = 1;
+                break;
+            case 10:
+                keys[0x9] = 1;
+                break;
+            case 11:
+                keys[0xe] = 1;
+                break;
+            case 12:
+                keys[0xa] = 1;
+                break;
+            case 13:
+                keys[0x0] = 1;
+                break;
+            case 14:
+                keys[0xb] = 1;
+                break;
+            case 15:
+                keys[0xf] = 1;
+                break;
+            default:
+                break;
+        }
+    }
+    
+    void CPU::resetKey(int code)
+    {
+        switch(code)
+        {
+            case 0:
+                keys[0x1] = 0;
+                break;
+            case 1:
+                keys[0x2] = 0;
+                break;
+            case 2:
+                keys[0x3] = 0;
+                break;
+            case 3:
+                keys[0xc] = 0;
+                break;
+            case 4:
+                keys[0x4] = 0;
+                break;
+            case 5:
+                keys[0x5] = 0;
+                break;
+            case 6:
+                keys[0x6] = 0;
+                break;
+            case 7:
+                keys[0xd] = 0;
+                break;
+            case 8:
+                keys[0x7] = 0;
+                break;
+            case 9:
+                keys[0x8] = 0;
+                break;
+            case 10:
+                keys[0x9] = 0;
+                break;
+            case 11:
+                keys[0xe] = 0;
+                break;
+            case 12:
+                keys[0xa] = 0;
+                break;
+            case 13:
+                keys[0x0] = 0;
+                break;
+            case 14:
+                keys[0xb] = 0;
+                break;
+            case 15:
+                keys[0xf] = 0;
+                break;
+            default:
+                break;
+        }
+    }
 }

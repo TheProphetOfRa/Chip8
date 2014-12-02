@@ -20,8 +20,8 @@ namespace Chip8
 
         const unsigned char * getGfx();
 
-        //void setKey(cocos2d::EventKeyboard::KeyCode code);
-        //void resetKey(cocos2d::EventKeyboard::KeyCode code);
+        void setKey(int code);
+        void resetKey(int code);
     private:
         unsigned short fetch(void) const;
         void execute(void);

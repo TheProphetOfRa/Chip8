@@ -28,6 +28,8 @@ namespace Application
         OpenGL::OpenGLController *_glController;
         OpenGL::Node *_node;
         Chip8::CPU *_cpu;
+        
+        std::vector<bool> _keys;
     };
 }
 #endif /* defined(__OpenGL_RTT__Application__) */
