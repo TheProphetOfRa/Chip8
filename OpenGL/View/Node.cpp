@@ -1,6 +1,6 @@
 //
 //  Node.cpp
-//  OpenGL RTT
+//  Chip8 Emulator
 //
 //  Created by David Hodgkinson on 25/11/2014.
 //  Copyright (c) 2014 David Hodgkinson. All rights reserved.

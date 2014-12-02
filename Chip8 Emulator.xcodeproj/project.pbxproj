@@ -9,15 +9,17 @@
 /* Begin PBXBuildFile section */
 		5F9C1ADE1A2D343200FC5702 /* cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F9C1ADC1A2D343200FC5702 /* cpu.cpp */; };
 		5FD44E9F1A2670B100A6BFA9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FD44E9E1A2670B100A6BFA9 /* main.cpp */; };
-		5FD44EA31A26714C00A6BFA9 /* Shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5FD44EA21A26714300A6BFA9 /* Shaders */; };
 		5FD44EA61A26716300A6BFA9 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FD44EA41A26716300A6BFA9 /* Application.cpp */; };
-		5FD7C2A31A2533D9007756B7 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FD7C2A11A2533D9007756B7 /* Node.cpp */; };
 		5FDB491D1A23A908004B7CA5 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FDB491C1A23A908004B7CA5 /* OpenGL.framework */; };
 		5FDB491F1A23A96F004B7CA5 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FDB491E1A23A96F004B7CA5 /* GLUT.framework */; };
-		5FDB49261A23C3E2004B7CA5 /* OpenGLController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB49241A23C3E2004B7CA5 /* OpenGLController.cpp */; };
 		5FDB49281A23C7E3004B7CA5 /* libglfw3.3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FDB49271A23C7E3004B7CA5 /* libglfw3.3.0.dylib */; };
 		5FDB492A1A23C7F7004B7CA5 /* libGLEW.1.11.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FDB49291A23C7F7004B7CA5 /* libGLEW.1.11.0.dylib */; };
-		5FDB493A1A24AEA6004B7CA5 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB49381A24AEA6004B7CA5 /* Log.cpp */; };
+		5FE3A4E31A2D3FB600A3A517 /* Resources in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5F9C1ADF1A2D350000FC5702 /* Resources */; };
+		5FE3A4F71A2D3FDC00A3A517 /* OpenGLController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3A4E61A2D3FDC00A3A517 /* OpenGLController.cpp */; };
+		5FE3A4F81A2D3FDC00A3A517 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3A4F01A2D3FDC00A3A517 /* Log.cpp */; };
+		5FE3A4F91A2D3FDC00A3A517 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3A4F31A2D3FDC00A3A517 /* Node.cpp */; };
+		5FE3A4FA1A2D3FDC00A3A517 /* Triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3A4F51A2D3FDC00A3A517 /* Triangle.cpp */; };
+		5FE3A4FC1A2D408000A3A517 /* Shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5FE3A4FB1A2D407100A3A517 /* Shaders */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,7 +29,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				5FD44EA31A26714C00A6BFA9 /* Shaders in CopyFiles */,
+				5FE3A4FC1A2D408000A3A517 /* Shaders in CopyFiles */,
+				5FE3A4E31A2D3FB600A3A517 /* Resources in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,20 +41,22 @@
 		5F9C1ADD1A2D343200FC5702 /* cpu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cpu.h; sourceTree = "<group>"; };
 		5F9C1ADF1A2D350000FC5702 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
 		5FD44E9E1A2670B100A6BFA9 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		5FD44EA21A26714300A6BFA9 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
 		5FD44EA41A26716300A6BFA9 /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
 		5FD44EA51A26716300A6BFA9 /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
-		5FD7C2A11A2533D9007756B7 /* Node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
-		5FD7C2A21A2533D9007756B7 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
-		5FDB49121A23A815004B7CA5 /* OpenGL RTT */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "OpenGL RTT"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5FDB49121A23A815004B7CA5 /* Chip8 Emulator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Chip8 Emulator"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5FDB491C1A23A908004B7CA5 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		5FDB491E1A23A96F004B7CA5 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
-		5FDB49241A23C3E2004B7CA5 /* OpenGLController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGLController.cpp; sourceTree = "<group>"; };
-		5FDB49251A23C3E2004B7CA5 /* OpenGLController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLController.h; sourceTree = "<group>"; };
 		5FDB49271A23C7E3004B7CA5 /* libglfw3.3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw3.3.0.dylib; path = /usr/local/Cellar/glfw3/3.0.4/lib/libglfw3.3.0.dylib; sourceTree = "<absolute>"; };
 		5FDB49291A23C7F7004B7CA5 /* libGLEW.1.11.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.1.11.0.dylib; path = /usr/local/Cellar/glew/1.11.0/lib/libGLEW.1.11.0.dylib; sourceTree = "<absolute>"; };
-		5FDB49381A24AEA6004B7CA5 /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Log.cpp; sourceTree = "<group>"; };
-		5FDB49391A24AEA6004B7CA5 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
+		5FE3A4E61A2D3FDC00A3A517 /* OpenGLController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGLController.cpp; sourceTree = "<group>"; };
+		5FE3A4E71A2D3FDC00A3A517 /* OpenGLController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLController.h; sourceTree = "<group>"; };
+		5FE3A4F01A2D3FDC00A3A517 /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Log.cpp; sourceTree = "<group>"; };
+		5FE3A4F11A2D3FDC00A3A517 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
+		5FE3A4F31A2D3FDC00A3A517 /* Node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
+		5FE3A4F41A2D3FDC00A3A517 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
+		5FE3A4F51A2D3FDC00A3A517 /* Triangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Triangle.cpp; sourceTree = "<group>"; };
+		5FE3A4F61A2D3FDC00A3A517 /* Triangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Triangle.h; sourceTree = "<group>"; };
+		5FE3A4FB1A2D407100A3A517 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,7 +99,7 @@
 				5F9C1ADB1A2D343200FC5702 /* Chip8 */,
 				5FDB492B1A23C820004B7CA5 /* Frameworks */,
 				5FD44E9E1A2670B100A6BFA9 /* main.cpp */,
-				5FDB49141A23A815004B7CA5 /* OpenGL RTT */,
+				5FE3A4E41A2D3FDC00A3A517 /* OpenGL */,
 				5FDB49131A23A815004B7CA5 /* Products */,
 				5F9C1ADF1A2D350000FC5702 /* Resources */,
 			);
@@ -103,29 +108,9 @@
 		5FDB49131A23A815004B7CA5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5FDB49121A23A815004B7CA5 /* OpenGL RTT */,
+				5FDB49121A23A815004B7CA5 /* Chip8 Emulator */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		5FDB49141A23A815004B7CA5 /* OpenGL RTT */ = {
-			isa = PBXGroup;
-			children = (
-				5FDB49231A23C3D1004B7CA5 /* Controller */,
-				5FD44EA21A26714300A6BFA9 /* Shaders */,
-				5FDB49371A24AE92004B7CA5 /* Util */,
-				5FDB49311A23E033004B7CA5 /* View */,
-			);
-			path = "OpenGL RTT";
-			sourceTree = "<group>";
-		};
-		5FDB49231A23C3D1004B7CA5 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				5FDB49241A23C3E2004B7CA5 /* OpenGLController.cpp */,
-				5FDB49251A23C3E2004B7CA5 /* OpenGLController.h */,
-			);
-			path = Controller;
 			sourceTree = "<group>";
 		};
 		5FDB492B1A23C820004B7CA5 /* Frameworks */ = {
@@ -139,30 +124,52 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5FDB49311A23E033004B7CA5 /* View */ = {
+		5FE3A4E41A2D3FDC00A3A517 /* OpenGL */ = {
 			isa = PBXGroup;
 			children = (
-				5FD7C2A11A2533D9007756B7 /* Node.cpp */,
-				5FD7C2A21A2533D9007756B7 /* Node.h */,
+				5FE3A4E51A2D3FDC00A3A517 /* Controller */,
+				5FE3A4FB1A2D407100A3A517 /* Shaders */,
+				5FE3A4EF1A2D3FDC00A3A517 /* Util */,
+				5FE3A4F21A2D3FDC00A3A517 /* View */,
 			);
-			path = View;
+			path = OpenGL;
 			sourceTree = "<group>";
 		};
-		5FDB49371A24AE92004B7CA5 /* Util */ = {
+		5FE3A4E51A2D3FDC00A3A517 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				5FDB49381A24AEA6004B7CA5 /* Log.cpp */,
-				5FDB49391A24AEA6004B7CA5 /* Log.h */,
+				5FE3A4E61A2D3FDC00A3A517 /* OpenGLController.cpp */,
+				5FE3A4E71A2D3FDC00A3A517 /* OpenGLController.h */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		5FE3A4EF1A2D3FDC00A3A517 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				5FE3A4F01A2D3FDC00A3A517 /* Log.cpp */,
+				5FE3A4F11A2D3FDC00A3A517 /* Log.h */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		5FE3A4F21A2D3FDC00A3A517 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5FE3A4F31A2D3FDC00A3A517 /* Node.cpp */,
+				5FE3A4F41A2D3FDC00A3A517 /* Node.h */,
+				5FE3A4F51A2D3FDC00A3A517 /* Triangle.cpp */,
+				5FE3A4F61A2D3FDC00A3A517 /* Triangle.h */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5FDB49111A23A815004B7CA5 /* OpenGL RTT */ = {
+		5FDB49111A23A815004B7CA5 /* Chip8 Emulator */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5FDB49191A23A815004B7CA5 /* Build configuration list for PBXNativeTarget "OpenGL RTT" */;
+			buildConfigurationList = 5FDB49191A23A815004B7CA5 /* Build configuration list for PBXNativeTarget "Chip8 Emulator" */;
 			buildPhases = (
 				5FDB490E1A23A815004B7CA5 /* Sources */,
 				5FDB490F1A23A815004B7CA5 /* Frameworks */,
@@ -172,9 +179,9 @@
 			);
 			dependencies = (
 			);
-			name = "OpenGL RTT";
+			name = "Chip8 Emulator";
 			productName = "OpenGL RTT";
-			productReference = 5FDB49121A23A815004B7CA5 /* OpenGL RTT */;
+			productReference = 5FDB49121A23A815004B7CA5 /* Chip8 Emulator */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -191,7 +198,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5FDB490D1A23A815004B7CA5 /* Build configuration list for PBXProject "OpenGL RTT" */;
+			buildConfigurationList = 5FDB490D1A23A815004B7CA5 /* Build configuration list for PBXProject "Chip8 Emulator" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -203,7 +210,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5FDB49111A23A815004B7CA5 /* OpenGL RTT */,
+				5FDB49111A23A815004B7CA5 /* Chip8 Emulator */,
 			);
 		};
 /* End PBXProject section */
@@ -214,11 +221,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F9C1ADE1A2D343200FC5702 /* cpu.cpp in Sources */,
-				5FDB49261A23C3E2004B7CA5 /* OpenGLController.cpp in Sources */,
-				5FDB493A1A24AEA6004B7CA5 /* Log.cpp in Sources */,
+				5FE3A4F81A2D3FDC00A3A517 /* Log.cpp in Sources */,
 				5FD44EA61A26716300A6BFA9 /* Application.cpp in Sources */,
+				5FE3A4FA1A2D3FDC00A3A517 /* Triangle.cpp in Sources */,
+				5FE3A4F91A2D3FDC00A3A517 /* Node.cpp in Sources */,
+				5FE3A4F71A2D3FDC00A3A517 /* OpenGLController.cpp in Sources */,
 				5FD44E9F1A2670B100A6BFA9 /* main.cpp in Sources */,
-				5FD7C2A31A2533D9007756B7 /* Node.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,7 +338,7 @@
 					/usr/local/Cellar/glew/1.11.0/lib/,
 					/usr/local/Cellar/glfw3/3.0.4/lib/,
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Chip8 Emulator";
 			};
 			name = Debug;
 		};
@@ -343,14 +351,14 @@
 					/usr/local/Cellar/glew/1.11.0/lib/,
 					/usr/local/Cellar/glfw3/3.0.4/lib/,
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Chip8 Emulator";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5FDB490D1A23A815004B7CA5 /* Build configuration list for PBXProject "OpenGL RTT" */ = {
+		5FDB490D1A23A815004B7CA5 /* Build configuration list for PBXProject "Chip8 Emulator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5FDB49171A23A815004B7CA5 /* Debug */,
@@ -359,7 +367,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5FDB49191A23A815004B7CA5 /* Build configuration list for PBXNativeTarget "OpenGL RTT" */ = {
+		5FDB49191A23A815004B7CA5 /* Build configuration list for PBXNativeTarget "Chip8 Emulator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5FDB491A1A23A815004B7CA5 /* Debug */,
