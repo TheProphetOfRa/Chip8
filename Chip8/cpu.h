@@ -11,35 +11,35 @@ namespace Chip8
         CPU();
         ~CPU();
 
-        void init(void);
-        bool loadGame(const char *filename);
+        void Init(void);
+        bool LoadGame(const char *filename);
 
-        void emulateCycle(void);
+        void EmulateCycle(void);
 
-        bool shouldDraw() const {return drawFlag;}
+        bool ShouldDraw() const {return _drawFlag;}
 
-        const unsigned char * getGfx();
+        const unsigned char * GetGfx();
 
-        void setKey(int code);
-        void resetKey(int code);
+        void SetKey(int code);
+        void ResetKey(int code);
     private:
-        unsigned short fetch(void) const;
-        void execute(void);
+        unsigned short Fetch(void) const;
+        void Execute(void);
 
-        void updateTimers(void);
+        void UpdateTimers(void);
     private:
-        unsigned short opcode;
-        unsigned char memory[4096];
-        unsigned char v[16];
-        unsigned short I;
-        unsigned short pc;
-        unsigned char gfx[64 * 32];
-        unsigned char delayTimer;
-        unsigned char soundTimer;
-        unsigned short stack[16];
-        unsigned short pStack;
-        unsigned char keys[16];
+        unsigned short _opcode;
+        unsigned char _memory[4096];
+        unsigned char _v[16];
+        unsigned short _I;
+        unsigned short _pc;
+        unsigned char _gfx[64 * 32];
+        unsigned char _delayTimer;
+        unsigned char _soundTimer;
+        unsigned short _stack[16];
+        unsigned short _pStack;
+        unsigned char _keys[16];
 
-        bool drawFlag;
+        bool _drawFlag;
     };
 }

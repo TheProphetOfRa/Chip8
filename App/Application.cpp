@@ -25,8 +25,8 @@ namespace Application
         _glController = OpenGL::OpenGLController::sharedController();
         
         _cpu = new Chip8::CPU();
-        _cpu->init();
-        _cpu->loadGame("Resources/pong2.c8");
+        _cpu->Init();
+        _cpu->LoadGame("Resources/pong2.c8");
         
         _node = OpenGL::Node::Create();
         _glController->AddNode(_node);
@@ -45,18 +45,18 @@ namespace Application
             {
                 if (_keys[i])
                 {
-                    _cpu->setKey(i);
+                    _cpu->SetKey(i);
                 }
                 else
                 {
-                    _cpu->resetKey(i);
+                    _cpu->ResetKey(i);
                 }
             }
-            _cpu->emulateCycle();
-            if (_cpu->shouldDraw())
+            _cpu->EmulateCycle();
+            if (_cpu->ShouldDraw())
             {
                 float data[64*32];
-                const unsigned char * gfx = _cpu->getGfx();
+                const unsigned char * gfx = _cpu->GetGfx();
                 for (int i = 0 ; i < 64 * 32 ; ++i)
                 {
                     if (gfx[i] == 1)
