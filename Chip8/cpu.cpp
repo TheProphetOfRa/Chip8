@@ -60,7 +60,9 @@ namespace Chip8
         printf("Loading: %s\n", filename);
         
         // Open file
-        FILE * pFile = fopen(filename, "rb");
+		FILE * pFile;
+		//pFile = fopen(filename, "rb");
+		fopen_s(&pFile, filename, "rb");
         if (pFile == NULL)
         {
             fputs ("File error", stderr);
