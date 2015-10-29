@@ -6,10 +6,19 @@
 //  Copyright (c) 2014 David Hodgkinson. All rights reserved.
 //
 
-#include "Application.h"
+#include "Chip8/Application.h"
+#include "Config.h"
+
+#include <assert.h>
+#include <iostream>
 
 int main(int argc, const char * argv[])
 {
-    Application::Application::Create()->MainLoop();
+	Chip8Emulator::Application* app = Chip8Emulator::Application::Create();
+	assert(app);
+	app->Run();
+#ifdef DEBUG
+	getchar();
+#endif
     return 0;
 }
