@@ -7,19 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F98ECD81BE2DAFB00CC4987 /* RasApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F98ECC31BE2DAFB00CC4987 /* RasApplication.cpp */; };
+		5F98ECD91BE2DAFB00CC4987 /* Director.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F98ECC61BE2DAFB00CC4987 /* Director.cpp */; };
+		5F98ECDA1BE2DAFB00CC4987 /* BaseMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F98ECC91BE2DAFB00CC4987 /* BaseMath.cpp */; };
+		5F98ECDC1BE2DAFB00CC4987 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F98ECD11BE2DAFB00CC4987 /* Log.cpp */; };
+		5F98ECDD1BE2DAFB00CC4987 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F98ECD41BE2DAFB00CC4987 /* Node.cpp */; };
+		5F98ECDE1BE2DAFB00CC4987 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F98ECD61BE2DAFB00CC4987 /* Scene.cpp */; };
+		5F98ECE21BE2DB8C00CC4987 /* FileUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F98ECE11BE2DB8C00CC4987 /* FileUtils.cpp */; };
+		5F98ECE41BE2DF5B00CC4987 /* libGLEW.1.12.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F98ECE31BE2DF5B00CC4987 /* libGLEW.1.12.0.dylib */; };
 		5F9C1ADE1A2D343200FC5702 /* cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F9C1ADC1A2D343200FC5702 /* cpu.cpp */; };
 		5FD44E9F1A2670B100A6BFA9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FD44E9E1A2670B100A6BFA9 /* main.cpp */; };
 		5FD44EA61A26716300A6BFA9 /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FD44EA41A26716300A6BFA9 /* Application.cpp */; };
 		5FDB491D1A23A908004B7CA5 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FDB491C1A23A908004B7CA5 /* OpenGL.framework */; };
 		5FDB491F1A23A96F004B7CA5 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FDB491E1A23A96F004B7CA5 /* GLUT.framework */; };
 		5FDB49281A23C7E3004B7CA5 /* libglfw3.3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FDB49271A23C7E3004B7CA5 /* libglfw3.3.0.dylib */; };
-		5FDB492A1A23C7F7004B7CA5 /* libGLEW.1.11.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FDB49291A23C7F7004B7CA5 /* libGLEW.1.11.0.dylib */; };
 		5FE3A4E31A2D3FB600A3A517 /* Resources in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5F9C1ADF1A2D350000FC5702 /* Resources */; };
-		5FE3A4F71A2D3FDC00A3A517 /* OpenGLController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3A4E61A2D3FDC00A3A517 /* OpenGLController.cpp */; };
-		5FE3A4F81A2D3FDC00A3A517 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3A4F01A2D3FDC00A3A517 /* Log.cpp */; };
-		5FE3A4F91A2D3FDC00A3A517 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3A4F31A2D3FDC00A3A517 /* Node.cpp */; };
-		5FE3A4FA1A2D3FDC00A3A517 /* Triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FE3A4F51A2D3FDC00A3A517 /* Triangle.cpp */; };
-		5FE3A4FC1A2D408000A3A517 /* Shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5FE3A4FB1A2D407100A3A517 /* Shaders */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,7 +31,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				5FE3A4FC1A2D408000A3A517 /* Shaders in CopyFiles */,
 				5FE3A4E31A2D3FB600A3A517 /* Resources in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -37,6 +38,21 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5F98ECC31BE2DAFB00CC4987 /* RasApplication.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RasApplication.cpp; sourceTree = "<group>"; };
+		5F98ECC41BE2DAFB00CC4987 /* RasApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RasApplication.h; sourceTree = "<group>"; };
+		5F98ECC61BE2DAFB00CC4987 /* Director.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Director.cpp; sourceTree = "<group>"; };
+		5F98ECC71BE2DAFB00CC4987 /* Director.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Director.h; sourceTree = "<group>"; };
+		5F98ECC91BE2DAFB00CC4987 /* BaseMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BaseMath.cpp; sourceTree = "<group>"; };
+		5F98ECCA1BE2DAFB00CC4987 /* BaseMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseMath.h; sourceTree = "<group>"; };
+		5F98ECD01BE2DAFB00CC4987 /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtils.h; sourceTree = "<group>"; };
+		5F98ECD11BE2DAFB00CC4987 /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Log.cpp; sourceTree = "<group>"; };
+		5F98ECD21BE2DAFB00CC4987 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
+		5F98ECD41BE2DAFB00CC4987 /* Node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
+		5F98ECD51BE2DAFB00CC4987 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
+		5F98ECD61BE2DAFB00CC4987 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
+		5F98ECD71BE2DAFB00CC4987 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
+		5F98ECE11BE2DB8C00CC4987 /* FileUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileUtils.cpp; sourceTree = "<group>"; };
+		5F98ECE31BE2DF5B00CC4987 /* libGLEW.1.12.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.1.12.0.dylib; path = ../../../../../usr/local/Cellar/glew/1.12.0/lib/libGLEW.1.12.0.dylib; sourceTree = "<group>"; };
 		5F9C1ADC1A2D343200FC5702 /* cpu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cpu.cpp; sourceTree = "<group>"; };
 		5F9C1ADD1A2D343200FC5702 /* cpu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cpu.h; sourceTree = "<group>"; };
 		5F9C1ADF1A2D350000FC5702 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
@@ -48,15 +64,6 @@
 		5FDB491E1A23A96F004B7CA5 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		5FDB49271A23C7E3004B7CA5 /* libglfw3.3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw3.3.0.dylib; path = /usr/local/Cellar/glfw3/3.0.4/lib/libglfw3.3.0.dylib; sourceTree = "<absolute>"; };
 		5FDB49291A23C7F7004B7CA5 /* libGLEW.1.11.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.1.11.0.dylib; path = /usr/local/Cellar/glew/1.11.0/lib/libGLEW.1.11.0.dylib; sourceTree = "<absolute>"; };
-		5FE3A4E61A2D3FDC00A3A517 /* OpenGLController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGLController.cpp; sourceTree = "<group>"; };
-		5FE3A4E71A2D3FDC00A3A517 /* OpenGLController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLController.h; sourceTree = "<group>"; };
-		5FE3A4F01A2D3FDC00A3A517 /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Log.cpp; sourceTree = "<group>"; };
-		5FE3A4F11A2D3FDC00A3A517 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
-		5FE3A4F31A2D3FDC00A3A517 /* Node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Node.cpp; sourceTree = "<group>"; };
-		5FE3A4F41A2D3FDC00A3A517 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
-		5FE3A4F51A2D3FDC00A3A517 /* Triangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Triangle.cpp; sourceTree = "<group>"; };
-		5FE3A4F61A2D3FDC00A3A517 /* Triangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Triangle.h; sourceTree = "<group>"; };
-		5FE3A4FB1A2D407100A3A517 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FDB492A1A23C7F7004B7CA5 /* libGLEW.1.11.0.dylib in Frameworks */,
+				5F98ECE41BE2DF5B00CC4987 /* libGLEW.1.12.0.dylib in Frameworks */,
 				5FDB49281A23C7E3004B7CA5 /* libglfw3.3.0.dylib in Frameworks */,
 				5FDB491F1A23A96F004B7CA5 /* GLUT.framework in Frameworks */,
 				5FDB491D1A23A908004B7CA5 /* OpenGL.framework in Frameworks */,
@@ -74,6 +81,91 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5F98ECC11BE2DAFB00CC4987 /* Ras2D */ = {
+			isa = PBXGroup;
+			children = (
+				5F98ECC21BE2DAFB00CC4987 /* Application */,
+				5F98ECC51BE2DAFB00CC4987 /* Controller */,
+				5F98ECC81BE2DAFB00CC4987 /* Math */,
+				5F98ECCB1BE2DAFB00CC4987 /* Platform */,
+				5F98ECCF1BE2DAFB00CC4987 /* Util */,
+				5F98ECD31BE2DAFB00CC4987 /* View */,
+			);
+			path = Ras2D;
+			sourceTree = "<group>";
+		};
+		5F98ECC21BE2DAFB00CC4987 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				5F98ECC31BE2DAFB00CC4987 /* RasApplication.cpp */,
+				5F98ECC41BE2DAFB00CC4987 /* RasApplication.h */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		5F98ECC51BE2DAFB00CC4987 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				5F98ECC61BE2DAFB00CC4987 /* Director.cpp */,
+				5F98ECC71BE2DAFB00CC4987 /* Director.h */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		5F98ECC81BE2DAFB00CC4987 /* Math */ = {
+			isa = PBXGroup;
+			children = (
+				5F98ECC91BE2DAFB00CC4987 /* BaseMath.cpp */,
+				5F98ECCA1BE2DAFB00CC4987 /* BaseMath.h */,
+			);
+			path = Math;
+			sourceTree = "<group>";
+		};
+		5F98ECCB1BE2DAFB00CC4987 /* Platform */ = {
+			isa = PBXGroup;
+			children = (
+				5F98ECDF1BE2DB6400CC4987 /* OSX */,
+			);
+			path = Platform;
+			sourceTree = "<group>";
+		};
+		5F98ECCF1BE2DAFB00CC4987 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				5F98ECD01BE2DAFB00CC4987 /* FileUtils.h */,
+				5F98ECD11BE2DAFB00CC4987 /* Log.cpp */,
+				5F98ECD21BE2DAFB00CC4987 /* Log.h */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		5F98ECD31BE2DAFB00CC4987 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5F98ECD41BE2DAFB00CC4987 /* Node.cpp */,
+				5F98ECD51BE2DAFB00CC4987 /* Node.h */,
+				5F98ECD61BE2DAFB00CC4987 /* Scene.cpp */,
+				5F98ECD71BE2DAFB00CC4987 /* Scene.h */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5F98ECDF1BE2DB6400CC4987 /* OSX */ = {
+			isa = PBXGroup;
+			children = (
+				5F98ECE01BE2DB7A00CC4987 /* Util */,
+			);
+			path = OSX;
+			sourceTree = "<group>";
+		};
+		5F98ECE01BE2DB7A00CC4987 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				5F98ECE11BE2DB8C00CC4987 /* FileUtils.cpp */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		5F9C1ADB1A2D343200FC5702 /* Chip8 */ = {
 			isa = PBXGroup;
 			children = (
@@ -99,8 +191,8 @@
 				5F9C1ADB1A2D343200FC5702 /* Chip8 */,
 				5FDB492B1A23C820004B7CA5 /* Frameworks */,
 				5FD44E9E1A2670B100A6BFA9 /* main.cpp */,
-				5FE3A4E41A2D3FDC00A3A517 /* OpenGL */,
 				5FDB49131A23A815004B7CA5 /* Products */,
+				5F98ECC11BE2DAFB00CC4987 /* Ras2D */,
 				5F9C1ADF1A2D350000FC5702 /* Resources */,
 			);
 			sourceTree = "<group>";
@@ -116,52 +208,13 @@
 		5FDB492B1A23C820004B7CA5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5F98ECE31BE2DF5B00CC4987 /* libGLEW.1.12.0.dylib */,
 				5FDB49291A23C7F7004B7CA5 /* libGLEW.1.11.0.dylib */,
 				5FDB49271A23C7E3004B7CA5 /* libglfw3.3.0.dylib */,
 				5FDB491E1A23A96F004B7CA5 /* GLUT.framework */,
 				5FDB491C1A23A908004B7CA5 /* OpenGL.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		5FE3A4E41A2D3FDC00A3A517 /* OpenGL */ = {
-			isa = PBXGroup;
-			children = (
-				5FE3A4E51A2D3FDC00A3A517 /* Controller */,
-				5FE3A4FB1A2D407100A3A517 /* Shaders */,
-				5FE3A4EF1A2D3FDC00A3A517 /* Util */,
-				5FE3A4F21A2D3FDC00A3A517 /* View */,
-			);
-			path = OpenGL;
-			sourceTree = "<group>";
-		};
-		5FE3A4E51A2D3FDC00A3A517 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				5FE3A4E61A2D3FDC00A3A517 /* OpenGLController.cpp */,
-				5FE3A4E71A2D3FDC00A3A517 /* OpenGLController.h */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		5FE3A4EF1A2D3FDC00A3A517 /* Util */ = {
-			isa = PBXGroup;
-			children = (
-				5FE3A4F01A2D3FDC00A3A517 /* Log.cpp */,
-				5FE3A4F11A2D3FDC00A3A517 /* Log.h */,
-			);
-			path = Util;
-			sourceTree = "<group>";
-		};
-		5FE3A4F21A2D3FDC00A3A517 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				5FE3A4F31A2D3FDC00A3A517 /* Node.cpp */,
-				5FE3A4F41A2D3FDC00A3A517 /* Node.h */,
-				5FE3A4F51A2D3FDC00A3A517 /* Triangle.cpp */,
-				5FE3A4F61A2D3FDC00A3A517 /* Triangle.h */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -220,12 +273,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F98ECE21BE2DB8C00CC4987 /* FileUtils.cpp in Sources */,
+				5F98ECDD1BE2DAFB00CC4987 /* Node.cpp in Sources */,
+				5F98ECD91BE2DAFB00CC4987 /* Director.cpp in Sources */,
 				5F9C1ADE1A2D343200FC5702 /* cpu.cpp in Sources */,
-				5FE3A4F81A2D3FDC00A3A517 /* Log.cpp in Sources */,
+				5F98ECDC1BE2DAFB00CC4987 /* Log.cpp in Sources */,
+				5F98ECDA1BE2DAFB00CC4987 /* BaseMath.cpp in Sources */,
+				5F98ECD81BE2DAFB00CC4987 /* RasApplication.cpp in Sources */,
 				5FD44EA61A26716300A6BFA9 /* Application.cpp in Sources */,
-				5FE3A4FA1A2D3FDC00A3A517 /* Triangle.cpp in Sources */,
-				5FE3A4F91A2D3FDC00A3A517 /* Node.cpp in Sources */,
-				5FE3A4F71A2D3FDC00A3A517 /* OpenGLController.cpp in Sources */,
+				5F98ECDE1BE2DAFB00CC4987 /* Scene.cpp in Sources */,
 				5FD44E9F1A2670B100A6BFA9 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -272,6 +328,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					/usr/local/Cellar/glew/1.11.0/include,
 					/usr/local/Cellar/glfw3/3.0.4/include,
+					"$(PROJECT_DIR)/**",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/Cellar/glfw3/3.0.4/lib/,
@@ -318,6 +375,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					/usr/local/Cellar/glew/1.11.0/include,
 					/usr/local/Cellar/glfw3/3.0.4/include,
+					"$(PROJECT_DIR)/**",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/Cellar/glfw3/3.0.4/lib/,
@@ -337,6 +395,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/Cellar/glew/1.11.0/lib/,
 					/usr/local/Cellar/glfw3/3.0.4/lib/,
+					/usr/local/Cellar/glew/1.12.0/lib,
 				);
 				PRODUCT_NAME = "Chip8 Emulator";
 			};
@@ -350,6 +409,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/Cellar/glew/1.11.0/lib/,
 					/usr/local/Cellar/glfw3/3.0.4/lib/,
+					/usr/local/Cellar/glew/1.12.0/lib,
 				);
 				PRODUCT_NAME = "Chip8 Emulator";
 			};

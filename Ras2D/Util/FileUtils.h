@@ -15,7 +15,9 @@ namespace Ras2D
 {
 	namespace FileUtils
 	{
-		bool ReadFromFile(std::string& data, std::string& filename);
+		bool ReadFromFile(std::string& data, const std::string& filename);
+        
+        FILE* GetFile(const std::string& filename, const std::string& mode);
 	}
 }
 

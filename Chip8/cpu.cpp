@@ -1,5 +1,7 @@
 #include "cpu.h"
 
+#include "Util/FileUtils.h"
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -60,9 +62,8 @@ namespace Chip8
         printf("Loading: %s\n", filename);
         
         // Open file
-		FILE * pFile;
-		//pFile = fopen(filename, "rb");
-		fopen_s(&pFile, filename, "rb");
+        FILE * pFile = Ras2D::FileUtils::GetFile(filename, "rb");
+ 
         if (pFile == NULL)
         {
             fputs ("File error", stderr);
