@@ -43,6 +43,7 @@ namespace Ras2D
 		GLuint _vao;
 		GLuint _shader;
 		GLuint _tex;
+        //240
 	};
 }
 

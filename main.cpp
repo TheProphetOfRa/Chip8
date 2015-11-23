@@ -7,7 +7,6 @@
 //
 
 #include "Chip8/Application.h"
-#include "Config.h"
 
 #include <assert.h>
 #include <iostream>
@@ -17,8 +16,6 @@ int main(int argc, const char * argv[])
 	Chip8Emulator::Application* app = Chip8Emulator::Application::Create();
 	assert(app);
 	app->Run();
-#ifdef DEBUG
-	getchar();
-#endif
+
     return 0;
 }
