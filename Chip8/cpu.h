@@ -1,5 +1,7 @@
 #pragma once
 
+#include "opcodes.h"
+
 #include <functional>
 #include <unordered_map>
 
@@ -8,6 +10,8 @@ namespace Chip8
     class CPU
     {
     public:
+        
+        friend class Opcodes;
         
         const static int kScreenWidth = 64;
         const static int kScreenHeight = 32;
@@ -29,7 +33,6 @@ namespace Chip8
 
         void UpdateTimers(void);
 
-        void setupOpCodes();
     private:
         unsigned short _opcode;
         unsigned char _memory[4096];
@@ -45,6 +48,6 @@ namespace Chip8
 
         bool _drawFlag;
         
-        std::unordered_map<unsigned short, std::function<void(unsigned short)>> instructionTable;
+        Opcodes opcodes;
     };
 }

@@ -10,11 +10,55 @@
 #define opcodes_h
 
 #include <functional>
-#include <map>
+#include <unordered_map>
 
 namespace Chip8
 {
-    void registerOpCodes(std::map<unsigned short, std::function<void(unsigned short)>>& ops);
+    class CPU;
+    
+    class Opcodes
+    {
+    public:
+        
+        Opcodes();
+        
+        void Execute(CPU* cpu, unsigned short opcode);
+        
+    private:
+        
+        void ClearScreen(CPU* cpu, unsigned short opcode);
+        void ReturnFromSub(CPU* cpu, unsigned short opcode);
+        
+        void JumpToAddr(CPU* cpu, unsigned short opcode);
+        void CallSubAtAddr(CPU* cpu, unsigned short opcode);
+        
+        void SkipInstrIf(CPU* cpu, unsigned short opcode);
+        void SkipInstrIfNot(CPU* cpu, unsigned short opcode);
+        void SkipInstrIfXY(CPU* cpu, unsigned short opcode);
+        
+        void SetX(CPU* cpu, unsigned short opcode);
+        
+        void AddNToX(CPU* cpu, unsigned short opcode);
+        
+        void EightCodes(CPU* cpu, unsigned short opcode);
+        
+        void NineCodes(CPU* cpu, unsigned short opcode);
+        
+        void ACodes(CPU* cpu, unsigned short opcode);
+        
+        void BCodes(CPU* cpu, unsigned short opcode);
+        
+        void CCodes(CPU* cpu, unsigned short opcode);
+        
+        void DCodes(CPU* cpu, unsigned short opcode);
+        
+        void ECodes(CPU* cpu, unsigned short opcode);
+        
+        void FCodes(CPU* cpu, unsigned short opcodes);
+        
+    private:
+        std::unordered_map<unsigned short, std::function<void(CPU*, unsigned short)>> _instructionTable;
+    };
 }
 
 #endif /* opcodes_h */
