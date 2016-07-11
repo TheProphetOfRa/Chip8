@@ -2,19 +2,19 @@
 //  Application.h
 //  Chip8 Emulator
 //
-//  Created by David Hodgkinson on 26/11/2014.
-//  Copyright (c) 2014 David Hodgkinson. All rights reserved.
+//  Created by David Hodgkinson on 24/11/2015.
+//  Copyright © 2015 David Hodgkinson. All rights reserved.
 //
 
-#ifndef __Chip8__Application__
-#define __Chip8__Application__
+#ifndef Application_h
+#define Application_h
 
 #include "Chip8/cpu.h"
 
 #include "Application/RasApplication.h"
 #include "View/Node.h"
 
-namespace Chip8
+namespace GB
 {
     class Application : public Ras2D::Application
     {
@@ -32,4 +32,5 @@ namespace Chip8
         std::vector<bool> _keys;
     };
 }
-#endif /* defined(__OpenGL_RTT__Application__) */
+
+#endif /* Application_h */

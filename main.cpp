@@ -13,7 +13,7 @@
 
 int main(int argc, const char * argv[])
 {
-	Chip8Emulator::Application* app = Chip8Emulator::Application::Create();
+	Chip8::Application* app = Chip8::Application::Create();
 	assert(app);
 	app->Run();
 

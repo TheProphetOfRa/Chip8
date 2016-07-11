@@ -8,7 +8,7 @@
 
 namespace Chip8
 {
-    const unsigned char chip8_fontset[80] =
+    static const unsigned char kChip8Fontset[80] =
     { 
     0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
     0x20, 0x60, 0x20, 0x20, 0x70, // 1
@@ -27,15 +27,13 @@ namespace Chip8
     0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
     0xF0, 0x80, 0xF0, 0x80, 0x80  // F
     };
-
-    CPU::CPU()
+    
+    static const unsigned char kKeycodes[16] =
     {
-    }
-
-    CPU::~CPU()
-    {
-    }
-
+        0x1, 0x2, 0x3, 0xc, 0x4, 0x5, 0x6, 0xd,
+        0x7, 0x8, 0x9, 0xe, 0xa, 0x0, 0xb, 0xf
+    };
+    
     void CPU::Init(void)
     {
         _pc = 0x200; //Program starts at 0x200
@@ -50,7 +48,7 @@ namespace Chip8
         for (int i = 0 ; i < 16 ; i++) _keys[i] = 0;      //Clear the key buffer
 
         for (int i = 0 ; i < 80 ; i++)
-            _memory[i] = chip8_fontset[i]; //Load the fontset
+            _memory[i] = kChip8Fontset[i]; //Load the fontset
         
         _drawFlag = false; //Set the draw call to false
         _delayTimer = 0; //Reset the delay timer
@@ -394,117 +392,20 @@ namespace Chip8
         return rtn;
     }
 
-    void CPU::SetKey(int c)
+    void CPU::SetKey(int code)
     {
-        switch(c)
-        {
-            case 0:
-                _keys[0x1] = 1;
-                break;
-            case 1:
-                _keys[0x2] = 1;
-                break;
-            case 2:
-                _keys[0x3] = 1;
-                break;
-            case 3:
-                _keys[0xc] = 1;
-                break;
-            case 4:
-                _keys[0x4] = 1;
-                break;
-            case 5:
-                _keys[0x5] = 1;
-                break;
-            case 6:
-                _keys[0x6] = 1;
-                break;
-            case 7:
-                _keys[0xd] = 1;
-                break;
-            case 8:
-                _keys[0x7] = 1;
-                break;
-            case 9:
-                _keys[0x8] = 1;
-                break;
-            case 10:
-                _keys[0x9] = 1;
-                break;
-            case 11:
-                _keys[0xe] = 1;
-                break;
-            case 12:
-                _keys[0xa] = 1;
-                break;
-            case 13:
-                _keys[0x0] = 1;
-                break;
-            case 14:
-                _keys[0xb] = 1;
-                break;
-            case 15:
-                _keys[0xf] = 1;
-                break;
-            default:
-                break;
-        }
+        _keys[kKeycodes[code]] = 1;
     }
     
     void CPU::ResetKey(int code)
     {
-        switch(code)
-        {
-            case 0:
-                _keys[0x1] = 0;
-                break;
-            case 1:
-                _keys[0x2] = 0;
-                break;
-            case 2:
-                _keys[0x3] = 0;
-                break;
-            case 3:
-                _keys[0xc] = 0;
-                break;
-            case 4:
-                _keys[0x4] = 0;
-                break;
-            case 5:
-                _keys[0x5] = 0;
-                break;
-            case 6:
-                _keys[0x6] = 0;
-                break;
-            case 7:
-                _keys[0xd] = 0;
-                break;
-            case 8:
-                _keys[0x7] = 0;
-                break;
-            case 9:
-                _keys[0x8] = 0;
-                break;
-            case 10:
-                _keys[0x9] = 0;
-                break;
-            case 11:
-                _keys[0xe] = 0;
-                break;
-            case 12:
-                _keys[0xa] = 0;
-                break;
-            case 13:
-                _keys[0x0] = 0;
-                break;
-            case 14:
-                _keys[0xb] = 0;
-                break;
-            case 15:
-                _keys[0xf] = 0;
-                break;
-            default:
-                break;
-        }
+        _keys[kKeycodes[code]] = 0;
+    }
+    
+    void CPU::setupOpCodes()
+    {
+        instructionTable[0x0000] = [&](unsigned short code) {
+            
+        };
     }
 }

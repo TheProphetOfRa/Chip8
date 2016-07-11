@@ -14,7 +14,7 @@
 #include "Application/RasApplication.h"
 #include "View/Node.h"
 
-namespace Chip8Emulator
+namespace Chip8
 {
     class Application : public Ras2D::Application
     {
@@ -27,7 +27,7 @@ namespace Chip8Emulator
         bool Init();
     private:
         Ras2D::Node *_node;
-        Chip8::CPU *_cpu;
+        CPU *_cpu;
         
         std::vector<bool> _keys;
     };

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <map>
 
 namespace Chip8
@@ -10,9 +11,6 @@ namespace Chip8
         
         const static int kScreenWidth = 64;
         const static int kScreenHeight = 32;
-        
-        CPU();
-        ~CPU();
 
         void Init(void);
         bool LoadGame(const char *filename);
@@ -30,6 +28,8 @@ namespace Chip8
         void Execute(void);
 
         void UpdateTimers(void);
+
+        void setupOpCodes();
     private:
         unsigned short _opcode;
         unsigned char _memory[4096];
@@ -44,5 +44,7 @@ namespace Chip8
         unsigned char _keys[16];
 
         bool _drawFlag;
+        
+        std::map<unsigned short, std::function<void(unsigned short)>> instructionTable;
     };
 }

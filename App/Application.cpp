@@ -8,7 +8,7 @@
 
 #include "Application.h"
 
-namespace Chip8Emulator
+namespace Chip8
 {
     Application* Application::Create()
     {
