@@ -1,7 +1,7 @@
 #pragma once
 
 #include <functional>
-#include <map>
+#include <unordered_map>
 
 namespace Chip8
 {
@@ -45,6 +45,6 @@ namespace Chip8
 
         bool _drawFlag;
         
-        std::map<unsigned short, std::function<void(unsigned short)>> instructionTable;
+        std::unordered_map<unsigned short, std::function<void(unsigned short)>> instructionTable;
     };
 }
