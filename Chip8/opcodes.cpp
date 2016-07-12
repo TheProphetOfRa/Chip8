@@ -17,13 +17,7 @@ namespace Chip8
     Opcodes::Opcodes()
     {
         //Top level catch for all 0x0XXX codes
-        _instructionTable[0x0000] = [&](CPU* cpu, unsigned short code)
-        {
-            if ((code & 0x000F) == 0x0000)
-                ClearScreen(cpu, code);
-            else
-                ReturnFromSub(cpu, code);
-        };
+        _instructionTable[0x0000] = std::bind(&Opcodes::ExecuteZeroCode, this, std::placeholders::_1, std::placeholders::_2);
         
         _instructionTable[0x1000] = std::bind(&Opcodes::JumpToAddr, this, std::placeholders::_1, std::placeholders::_2);
         
@@ -39,7 +33,7 @@ namespace Chip8
         
         _instructionTable[0x7000] = std::bind(&Opcodes::AddNToX, this, std::placeholders::_1, std::placeholders::_2);
         
-        _instructionTable[0x8000] = std::bind(&Opcodes::EightCodes, this, std::placeholders::_1, std::placeholders::_2);
+        _instructionTable[0x8000] = std::bind(&Opcodes::ExecuteEightCode, this, std::placeholders::_1, std::placeholders::_2);
         
         _instructionTable[0x9000] = std::bind(&Opcodes::NineCodes, this, std::placeholders::_1, std::placeholders::_2);
         
@@ -51,9 +45,45 @@ namespace Chip8
         
         _instructionTable[0xD000] = std::bind(&Opcodes::DCodes, this, std::placeholders::_1, std::placeholders::_2);
         
-        _instructionTable[0xE000] = std::bind(&Opcodes::ECodes, this, std::placeholders::_1, std::placeholders::_2);
+        _instructionTable[0xE000] = std::bind(&Opcodes::ExecuteECode, this, std::placeholders::_1, std::placeholders::_2);
         
         _instructionTable[0xF000] = std::bind(&Opcodes::ExecuteFCode, this, std::placeholders::_1, std::placeholders::_2);
+        
+        
+        
+        _zeroCodeTable[0x0000] = std::bind(&Opcodes::ClearScreen, this, std::placeholders::_1, std::placeholders::_2);
+        
+        _zeroCodeTable[0x000E] = std::bind(&Opcodes::ReturnFromSub, this, std::placeholders::_1, std::placeholders::_2);
+        
+        
+        
+        _eightCodeTable[0x0000] = std::bind(&Opcodes::SetVXToVY, this, std::placeholders::_1, std::placeholders::_2);
+        
+        _eightCodeTable[0x0001] = std::bind(&Opcodes::SetVXToVXORVY, this, std::placeholders::_1, std::placeholders::_2);
+        
+        _eightCodeTable[0x0002] = std::bind(&Opcodes::SetVXToVXANDVY, this, std::placeholders::_1, std::placeholders::_2);
+        
+        _eightCodeTable[0x0003] = std::bind(&Opcodes::SetVXToVXXORVY, this, std::placeholders::_1, std::placeholders::_2);
+        
+        _eightCodeTable[0x0004] = std::bind(&Opcodes::AddVYToVXAndCarry, this, std::placeholders::_1, std::placeholders::_2);
+        
+        _eightCodeTable[0x0005] = std::bind(&Opcodes::SubVYFromVXAndCarry, this, std::placeholders::_1, std::placeholders::_2);
+        
+        _eightCodeTable[0x0006] = std::bind(&Opcodes::ShiftVXRight, this, std::placeholders::_1, std::placeholders::_2);
+        
+        _eightCodeTable[0x0007] = std::bind(&Opcodes::SubVXFromVY, this, std::placeholders::_1, std::placeholders::_2);
+        
+        _eightCodeTable[0x000E] = std::bind(&Opcodes::ShiftVXLeft, this, std::placeholders::_1, std::placeholders::_2);
+
+        
+        
+        
+        _eCodeTable[0x009E] = std::bind(&Opcodes::SkipIfKeyPressed, this, std::placeholders::_1, std::placeholders::_2);
+        
+        _eCodeTable[0x00A1] = std::bind(&Opcodes::SkipIfKeyNotPressed, this, std::placeholders::_1, std::placeholders::_2);
+        
+        
+        
         
         _fCodeTable[0x0007] = std::bind(&Opcodes::SetVXToDelay, this, std::placeholders::_1, std::placeholders::_2);
         
@@ -79,23 +109,10 @@ namespace Chip8
         _instructionTable[opcode & 0xF000](cpu, opcode);
     }
     
-#pragma mark - 0 Codes
-    
-    void Opcodes::ClearScreen(Chip8::CPU *cpu, unsigned short opcode)
+    void Opcodes::ExecuteZeroCode(Chip8::CPU *cpu, unsigned short opcode)
     {
-        for (int i = 0 ; i < (64 * 32) ; ++i) cpu->_gfx[i] = 0x0;
-        cpu->_drawFlag = true;
-        cpu->_pc+=2;
+        _zeroCodeTable[opcode & 0x000F](cpu, opcode);
     }
-    
-    void Opcodes::ReturnFromSub(Chip8::CPU *cpu, unsigned short opcode)
-    {
-        --cpu->_pStack;
-        cpu->_pc = cpu->_stack[cpu->_pStack];
-        cpu->_pc += 2;
-    }
-    
-#pragma mark -
     
     //1NNN Jump to address NNN
     void Opcodes::JumpToAddr(Chip8::CPU *cpu, unsigned short opcode)
@@ -153,64 +170,9 @@ namespace Chip8
         cpu->_pc+=2;
     }
     
-    void Opcodes::EightCodes(Chip8::CPU *cpu, unsigned short opcode)
+    void Opcodes::ExecuteEightCode(Chip8::CPU *cpu, unsigned short opcode)
     {
-        switch(cpu->_opcode & 0x000F)
-        {
-            case 0x0000: //Set v[X] to the value of v[Y]
-                cpu->_v[(opcode & 0x0F00) >> 8] = cpu->_v[(opcode & 0x00F0) >> 4];
-                cpu->_pc+=2;
-                break;
-            case 0x0001: //Set v[X] to v[X] OR v[Y]
-                cpu->_v[(opcode & 0x0F00) >> 8] |= cpu->_v[(opcode & 0x00F0) >> 4];
-                cpu->_pc+=2;
-                break;
-            case 0x0002: //Set v[X] to v[X] AND v[Y]
-                cpu->_v[(opcode & 0x0F00) >> 8] &= cpu->_v[(opcode & 0x00F0) >> 4];
-                cpu->_pc+=2;
-                break;
-            case 0x0003: //Set v[X] to v[X] XOR v[Y]
-                cpu->_v[(opcode & 0x0F00) >> 8] ^= cpu->_v[(opcode & 0x00F0) >> 4];
-                cpu->_pc+=2;
-                break;
-            case 0x0004: //Adds v[Y] to v[X] ands sets carry bit if required
-                if (cpu->_v[(opcode & 0x00F0) >> 4] > (0xFF - cpu->_v[(opcode & 0x0F00) >> 8]))
-                    cpu->_v[0xF] = 1;
-                else
-                    cpu->_v[0xF] = 0;
-                cpu->_v[(opcode & 0x0F00) >> 8] += cpu->_v[(opcode & 0x00F0) >> 4];
-                cpu->_pc+=2;
-                break;
-            case 0x0005: //Subtracts v[Y] from v[X] and sets carry bit if required
-                if (cpu->_v[(opcode & 0x00F0) >> 4] > cpu->_v[(opcode & 0x0F00) >> 8])
-                    cpu->_v[0xF] = 0;
-                else
-                    cpu->_v[0xF] = 1;
-                cpu->_v[(opcode & 0x0F00) >> 8] -= cpu->_v[(opcode & 0x00F0) >> 4];
-                cpu->_pc+=2;
-                break;
-            case 0x0006: //Shifts v[X] right by one stores the LSB in v[F](before shift)
-                cpu->_v[0xF] = cpu->_v[(opcode & 0x0F00) >> 8] & 0x1;
-                cpu->_v[(opcode & 0x0F00) >> 8] >>= 1;
-                cpu->_pc+=2;
-                break;
-            case 0x0007: //v[X] = v[Y] - v[X], v[F] = 0 when borrow required
-                if (cpu->_v[(opcode & 0x0F00) >> 8] > cpu->_v[(opcode & 0x00F0) >> 4])
-                    cpu->_v[0xF] = 0;
-                else
-                    cpu->_v[0X0] = 1;
-                cpu->_v[(opcode & 0x0F00) >> 8] = cpu->_v[(opcode & 0x00F0) >> 4] - cpu->_v[(opcode & 0x0F00) >> 8];
-                cpu->_pc+=2;
-                break;
-            case 0x000E: //Shift v[X] left by one and set v[F] to MSB before shift
-                cpu->_v[0xF] = cpu->_v[(opcode & 0x0F00) >> 8] >> 7;
-                cpu->_v[(opcode & 0x0F00) >> 8] <<= 1;
-                cpu->_pc+=2;
-                break;
-            default:
-                printf("\t%s\n", "Unknown 0x8000 domain opcode");
-                break;
-        }
+        _eightCodeTable[opcode & 0x000F](cpu, opcode);
     }
     
     void Opcodes::NineCodes(Chip8::CPU *cpu, unsigned short opcode)
@@ -240,57 +202,152 @@ namespace Chip8
     
     void Opcodes::DCodes(Chip8::CPU *cpu, unsigned short opcode)
     {
+        const unsigned short x = cpu->_v[(opcode & 0x0F00) >> 8];
+        const unsigned short y = cpu->_v[(opcode & 0x00F0) >> 4];
+        const short height = opcode & 0x000F;
+        short pixel;
+        cpu->_v[0xF] = 0;
+        for (int yline = 0 ; yline < height ; ++yline)
         {
-            const unsigned short x = cpu->_v[(opcode & 0x0F00) >> 8];
-            const unsigned short y = cpu->_v[(opcode & 0x00F0) >> 4];
-            const short height = opcode & 0x000F;
-            short pixel;
-            cpu->_v[0xF] = 0;
-            for (int yline = 0 ; yline < height ; ++yline)
+            pixel = cpu->_memory[cpu->_I + yline];
+            for (int xline = 0 ; xline < 8 ; ++xline)
             {
-                pixel = cpu->_memory[cpu->_I + yline];
-                for (int xline = 0 ; xline < 8 ; ++xline)
+                if ((pixel & (0x80 >> xline)) != 0)
                 {
-                    if ((pixel & (0x80 >> xline)) != 0)
-                    {
-                        if(cpu->_gfx[(x + xline + ((y + yline) * 64))] == 1)
-                            cpu->_v[0xF] = 1;
-                        cpu->_gfx[x + xline + ((y + yline) * 64)] ^= 1;
-                    }
+                    if(cpu->_gfx[(x + xline + ((y + yline) * 64))] == 1)
+                        cpu->_v[0xF] = 1;
+                    cpu->_gfx[x + xline + ((y + yline) * 64)] ^= 1;
                 }
             }
-            cpu->_drawFlag = true;
         }
+        cpu->_drawFlag = true;
         cpu->_pc+=2;
     }
     
-    void Opcodes::ECodes(Chip8::CPU *cpu, unsigned short opcode)
+    void Opcodes::ExecuteECode(Chip8::CPU *cpu, unsigned short opcode)
     {
-        switch(opcode & 0x00FF)
-        {
-                //0xEX9E skips the next instruction
-                //if the key stored in VX is pressed
-            case 0x009E:
-                if (cpu->_keys[cpu->_v[(opcode & 0x0F00) >> 8]] != 0)
-                    cpu->_pc += 4;
-                else
-                    cpu->_pc += 2;
-                break;
-            case 0x00A1: //Skips the next instruction if the key in v[X] isn't pressed
-                if (cpu->_keys[cpu->_v[(opcode & 0x0F00) >> 8]] == 0)
-                    cpu->_pc += 4;
-                else
-                    cpu->_pc += 2;
-                break;
-            default:
-                printf("\t%s\n", "Unknown 0xE000 domain opcode");
-                break;
-        }
+        _eCodeTable[opcode & 0x00FF](cpu, opcode);
     }
     
     void Opcodes::ExecuteFCode(Chip8::CPU *cpu, unsigned short opcode)
     {
         _fCodeTable[opcode & 0x00FF](cpu, opcode);
+    }
+    
+#pragma mark - 0 Codes
+    
+    void Opcodes::ClearScreen(Chip8::CPU *cpu, unsigned short opcode)
+    {
+        for (int i = 0 ; i < (64 * 32) ; ++i) cpu->_gfx[i] = 0x0;
+        cpu->_drawFlag = true;
+        cpu->_pc+=2;
+    }
+    
+    void Opcodes::ReturnFromSub(Chip8::CPU *cpu, unsigned short opcode)
+    {
+        --cpu->_pStack;
+        cpu->_pc = cpu->_stack[cpu->_pStack];
+        cpu->_pc += 2;
+    }
+    
+#pragma mark - 8 Codes
+    
+    //Set v[X] to the value of v[Y]
+    void Opcodes::SetVXToVY(CPU* cpu, unsigned short opcode)
+    {
+        cpu->_v[(opcode & 0x0F00) >> 8] = cpu->_v[(opcode & 0x00F0) >> 4];
+        cpu->_pc+=2;
+    }
+    
+    //Set v[X] to v[X] OR v[Y]
+    void Opcodes::SetVXToVXORVY(CPU* cpu, unsigned short opcode)
+    {
+        cpu->_v[(opcode & 0x0F00) >> 8] |= cpu->_v[(opcode & 0x00F0) >> 4];
+        cpu->_pc+=2;
+    }
+    
+    //Set v[X] to v[X] AND v[Y]
+    void Opcodes::SetVXToVXANDVY(CPU* cpu, unsigned short opcode)
+    {
+        cpu->_v[(opcode & 0x0F00) >> 8] &= cpu->_v[(opcode & 0x00F0) >> 4];
+        cpu->_pc+=2;
+    }
+    
+    //Set v[X] to v[X] XOR v[Y]
+    void Opcodes::SetVXToVXXORVY(CPU* cpu, unsigned short opcode)
+    {
+        cpu->_v[(opcode & 0x0F00) >> 8] ^= cpu->_v[(opcode & 0x00F0) >> 4];
+        cpu->_pc+=2;
+    }
+    
+    //Adds v[Y] to v[X] ands sets carry bit if required
+    void Opcodes::AddVYToVXAndCarry(CPU* cpu, unsigned short opcode)
+    {
+        if (cpu->_v[(opcode & 0x00F0) >> 4] > (0xFF - cpu->_v[(opcode & 0x0F00) >> 8]))
+            cpu->_v[0xF] = 1;
+        else
+            cpu->_v[0xF] = 0;
+        cpu->_v[(opcode & 0x0F00) >> 8] += cpu->_v[(opcode & 0x00F0) >> 4];
+        cpu->_pc+=2;
+    }
+    
+    //Subtracts v[Y] from v[X] and sets carry bit if required
+    void Opcodes::SubVYFromVXAndCarry(CPU* cpu, unsigned short opcode)
+    {
+        if (cpu->_v[(opcode & 0x00F0) >> 4] > cpu->_v[(opcode & 0x0F00) >> 8])
+            cpu->_v[0xF] = 0;
+        else
+            cpu->_v[0xF] = 1;
+        cpu->_v[(opcode & 0x0F00) >> 8] -= cpu->_v[(opcode & 0x00F0) >> 4];
+        cpu->_pc+=2;
+    }
+    
+    //Shifts v[X] right by one stores the LSB in v[F](before shift)
+    void Opcodes::ShiftVXRight(CPU* cpu, unsigned short opcode)
+    {
+        cpu->_v[0xF] = cpu->_v[(opcode & 0x0F00) >> 8] & 0x1;
+        cpu->_v[(opcode & 0x0F00) >> 8] >>= 1;
+        cpu->_pc+=2;
+    }
+    
+    //v[X] = v[Y] - v[X], v[F] = 0 when borrow required
+    void Opcodes::SubVXFromVY(CPU* cpu, unsigned short opcode)
+    {
+        if (cpu->_v[(opcode & 0x0F00) >> 8] > cpu->_v[(opcode & 0x00F0) >> 4])
+            cpu->_v[0xF] = 0;
+        else
+            cpu->_v[0X0] = 1;
+        cpu->_v[(opcode & 0x0F00) >> 8] = cpu->_v[(opcode & 0x00F0) >> 4] - cpu->_v[(opcode & 0x0F00) >> 8];
+        cpu->_pc+=2;
+    }
+    
+    //Shift v[X] left by one and set v[F] to MSB before shift
+    void Opcodes::ShiftVXLeft(CPU* cpu, unsigned short opcode)
+    {
+        cpu->_v[0xF] = cpu->_v[(opcode & 0x0F00) >> 8] >> 7;
+        cpu->_v[(opcode & 0x0F00) >> 8] <<= 1;
+        cpu->_pc+=2;
+    }
+    
+#pragma mark - E Codes
+    
+    //0xEX9E skips the next instruction
+    //if the key stored in VX is pressed
+    void Opcodes::SkipIfKeyPressed(Chip8::CPU *cpu, unsigned short opcode)
+    {
+        if (cpu->_keys[cpu->_v[(opcode & 0x0F00) >> 8]] != 0)
+            cpu->_pc += 4;
+        else
+            cpu->_pc += 2;
+    }
+    
+    //Skips the next instruction if the key in v[X] isn't pressed
+    void Opcodes::SkipIfKeyNotPressed(Chip8::CPU *cpu, unsigned short opcode)
+    {
+        if (cpu->_keys[cpu->_v[(opcode & 0x0F00) >> 8]] == 0)
+            cpu->_pc += 4;
+        else
+            cpu->_pc += 2;
     }
     
 #pragma mark - F Codes
@@ -380,4 +437,5 @@ namespace Chip8
     }
     
 #pragma mark -
+    
 }
