@@ -46,13 +46,13 @@ namespace Chip8
         
         void NineCodes(CPU* cpu, unsigned short opcode);
         
-        void ACodes(CPU* cpu, unsigned short opcode);
+        void SetI(CPU* cpu, unsigned short opcode);
         
-        void BCodes(CPU* cpu, unsigned short opcode);
+        void JumpToAddrPlusVZero(CPU* cpu, unsigned short opcode);
         
-        void CCodes(CPU* cpu, unsigned short opcode);
+        void SetVXToRandomNumber(CPU* cpu, unsigned short opcode);
         
-        void DCodes(CPU* cpu, unsigned short opcode);
+        void RenderSprite(CPU* cpu, unsigned short opcode);
         
         void ExecuteECode(CPU* cpu, unsigned short opcode);
         

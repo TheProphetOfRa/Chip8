@@ -37,13 +37,13 @@ namespace Chip8
         
         _instructionTable[0x9000] = std::bind(&Opcodes::NineCodes, this, std::placeholders::_1, std::placeholders::_2);
         
-        _instructionTable[0xA000] = std::bind(&Opcodes::ACodes, this, std::placeholders::_1, std::placeholders::_2);
+        _instructionTable[0xA000] = std::bind(&Opcodes::SetI, this, std::placeholders::_1, std::placeholders::_2);
         
-        _instructionTable[0xB000] = std::bind(&Opcodes::BCodes, this, std::placeholders::_1, std::placeholders::_2);
+        _instructionTable[0xB000] = std::bind(&Opcodes::JumpToAddrPlusVZero, this, std::placeholders::_1, std::placeholders::_2);
         
-        _instructionTable[0xC000] = std::bind(&Opcodes::CCodes, this, std::placeholders::_1, std::placeholders::_2);
+        _instructionTable[0xC000] = std::bind(&Opcodes::SetVXToRandomNumber, this, std::placeholders::_1, std::placeholders::_2);
         
-        _instructionTable[0xD000] = std::bind(&Opcodes::DCodes, this, std::placeholders::_1, std::placeholders::_2);
+        _instructionTable[0xD000] = std::bind(&Opcodes::RenderSprite, this, std::placeholders::_1, std::placeholders::_2);
         
         _instructionTable[0xE000] = std::bind(&Opcodes::ExecuteECode, this, std::placeholders::_1, std::placeholders::_2);
         
@@ -183,24 +183,28 @@ namespace Chip8
             cpu->_pc += 2;
     }
     
-    void Opcodes::ACodes(Chip8::CPU *cpu, unsigned short opcode)
+    //Set I to the adress 0x0NNN
+    void Opcodes::SetI(Chip8::CPU *cpu, unsigned short opcode)
     {
         cpu->_I = opcode & 0x0FFF;
         cpu->_pc += 2;
     }
     
-    void Opcodes::BCodes(Chip8::CPU *cpu, unsigned short opcode)
+    //Jump to address at 0x0NNN + v[0]
+    void Opcodes::JumpToAddrPlusVZero(Chip8::CPU *cpu, unsigned short opcode)
     {
         cpu->_pc = (opcode & 0x0FFF) + cpu->_v[0];
     }
     
-    void Opcodes::CCodes(Chip8::CPU *cpu, unsigned short opcode)
+    //Set v[x] to random number & 0x00NN
+    void Opcodes::SetVXToRandomNumber(Chip8::CPU *cpu, unsigned short opcode)
     {
         cpu->_v[(opcode & 0x0F00) >> 8] = (rand() % 0xFF) & (opcode & 0x00FF);
         cpu->_pc+=2;
     }
     
-    void Opcodes::DCodes(Chip8::CPU *cpu, unsigned short opcode)
+    //Draws sprite at coords (v[x], v[y]) with width 8 and height N
+    void Opcodes::RenderSprite(Chip8::CPU *cpu, unsigned short opcode)
     {
         const unsigned short x = cpu->_v[(opcode & 0x0F00) >> 8];
         const unsigned short y = cpu->_v[(opcode & 0x00F0) >> 4];
