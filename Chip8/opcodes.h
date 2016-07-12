@@ -26,8 +26,12 @@ namespace Chip8
         
     private:
         
+#pragma mark - 0 Codes
+        
         void ClearScreen(CPU* cpu, unsigned short opcode);
         void ReturnFromSub(CPU* cpu, unsigned short opcode);
+        
+#pragma mark -
         
         void JumpToAddr(CPU* cpu, unsigned short opcode);
         void CallSubAtAddr(CPU* cpu, unsigned short opcode);
@@ -54,10 +58,34 @@ namespace Chip8
         
         void ECodes(CPU* cpu, unsigned short opcode);
         
-        void FCodes(CPU* cpu, unsigned short opcodes);
+        void ExecuteFCode(CPU* cpu, unsigned short opcode);
+        
+#pragma mark - F Codes
+        
+        void SetVXToDelay(CPU* cpu, unsigned short opcode);
+        
+        void StoreKeyInVX(CPU* cpu, unsigned short opcode);
+        
+        void SetDelayTimerToVX(CPU* cpu, unsigned short opcode);
+        
+        void SetSoundTimerToVX(CPU* cpu, unsigned short opcode);
+        
+        void AddVXToI(CPU* cpu, unsigned short opcode);
+        
+        void SetIToSpriteLocation(CPU* cpu, unsigned short opcode);
+        
+        void StoreVXAtI(CPU* cpu, unsigned short opcode);
+        
+        void StoreContentOfVAtI(CPU* cpu, unsigned short opcode);
+        
+        void FillContentOfVFromI(CPU* cpu, unsigned short opcode);
+        
+#pragma mark -
         
     private:
         std::unordered_map<unsigned short, std::function<void(CPU*, unsigned short)>> _instructionTable;
+        
+        std::unordered_map<unsigned short, std::function<void(CPU*, unsigned short)>> _fCodeTable;
     };
 }
 

@@ -37,7 +37,6 @@ namespace Chip8
         
         _instructionTable[0x6000] = std::bind(&Opcodes::SetX, this, std::placeholders::_1, std::placeholders::_2);
         
-        //7XNN Adds NN to v[X]
         _instructionTable[0x7000] = std::bind(&Opcodes::AddNToX, this, std::placeholders::_1, std::placeholders::_2);
         
         _instructionTable[0x8000] = std::bind(&Opcodes::EightCodes, this, std::placeholders::_1, std::placeholders::_2);
@@ -54,13 +53,33 @@ namespace Chip8
         
         _instructionTable[0xE000] = std::bind(&Opcodes::ECodes, this, std::placeholders::_1, std::placeholders::_2);
         
-        _instructionTable[0xF000] = std::bind(&Opcodes::FCodes, this, std::placeholders::_1, std::placeholders::_2);
+        _instructionTable[0xF000] = std::bind(&Opcodes::ExecuteFCode, this, std::placeholders::_1, std::placeholders::_2);
+        
+        _fCodeTable[0x0007] = std::bind(&Opcodes::SetVXToDelay, this, std::placeholders::_1, std::placeholders::_2);
+        
+        _fCodeTable[0x000A] = std::bind(&Opcodes::StoreKeyInVX, this, std::placeholders::_1, std::placeholders::_2);
+        
+        _fCodeTable[0x0015] = std::bind(&Opcodes::SetDelayTimerToVX, this, std::placeholders::_1, std::placeholders::_2);
+        
+        _fCodeTable[0x0018] = std::bind(&Opcodes::SetSoundTimerToVX, this, std::placeholders::_1, std::placeholders::_2);
+        
+        _fCodeTable[0x001E] = std::bind(&Opcodes::AddVXToI, this, std::placeholders::_1, std::placeholders::_2);
+        
+        _fCodeTable[0x0029] = std::bind(&Opcodes::SetIToSpriteLocation, this, std::placeholders::_1, std::placeholders::_2);
+        
+        _fCodeTable[0x0033] = std::bind(&Opcodes::StoreVXAtI, this, std::placeholders::_1, std::placeholders::_2);
+                                        
+        _fCodeTable[0x0055] = std::bind(&Opcodes::StoreContentOfVAtI, this, std::placeholders::_1, std::placeholders::_2);
+        
+        _fCodeTable[0x0065] = std::bind(&Opcodes::FillContentOfVFromI, this, std::placeholders::_1, std::placeholders::_2);
     }
     
     void Opcodes::Execute(CPU *cpu, unsigned short opcode)
     {
         _instructionTable[opcode & 0xF000](cpu, opcode);
     }
+    
+#pragma mark - 0 Codes
     
     void Opcodes::ClearScreen(Chip8::CPU *cpu, unsigned short opcode)
     {
@@ -76,10 +95,12 @@ namespace Chip8
         cpu->_pc += 2;
     }
     
+#pragma mark -
+    
     //1NNN Jump to address NNN
     void Opcodes::JumpToAddr(Chip8::CPU *cpu, unsigned short opcode)
     {
-        cpu->_pc = cpu->_opcode & 0x0FFF;
+        cpu->_pc = opcode & 0x0FFF;
     }
     
     //2NNN call subroutine at NNN
@@ -88,13 +109,13 @@ namespace Chip8
         //Push the memory location onto the stack for the subroutine return
         cpu->_stack[cpu->_pStack] = cpu->_pc;
         ++cpu->_pStack;
-        cpu->_pc = cpu->_opcode & 0x0FFF;
+        cpu->_pc = opcode & 0x0FFF;
     }
     
     //3XNN Skip next instruction if v[X] == NN
     void Opcodes::SkipInstrIf(Chip8::CPU *cpu, unsigned short opcode)
     {
-        if (cpu->_v[(cpu->_opcode & 0x0F00) >> 8] == (cpu->_opcode & 0x00FF))
+        if (cpu->_v[(opcode & 0x0F00) >> 8] == (opcode & 0x00FF))
             cpu->_pc += 4;
         else
             cpu->_pc += 2;
@@ -103,7 +124,7 @@ namespace Chip8
     //4XNN Skip next instruction if v[X] != NN
     void Opcodes::SkipInstrIfNot(Chip8::CPU *cpu, unsigned short opcode)
     {
-        if (cpu->_v[(cpu->_opcode & 0x0F00) >> 8] != (cpu->_opcode & 0x00FF))
+        if (cpu->_v[(opcode & 0x0F00) >> 8] != (opcode & 0x00FF))
             cpu->_pc += 4;
         else
             cpu->_pc += 2;
@@ -112,7 +133,7 @@ namespace Chip8
     //5XY0 Skip next instruction if v[X] == v[Y]
     void Opcodes::SkipInstrIfXY(Chip8::CPU *cpu, unsigned short opcode)
     {
-        if (cpu->_v[(cpu->_opcode & 0X0F00) >> 8] == cpu->_v[(cpu->_opcode & 0x00F0) >> 4])
+        if (cpu->_v[(opcode & 0X0F00) >> 8] == cpu->_v[(opcode & 0x00F0) >> 4])
             cpu->_pc += 4;
         else
             cpu->_pc += 2;
@@ -121,14 +142,14 @@ namespace Chip8
     //6XNN Sets v[X] to NN
     void Opcodes::SetX(Chip8::CPU *cpu, unsigned short opcode)
     {
-        cpu->_v[(cpu->_opcode & 0x0F00) >> 8] = cpu->_opcode & 0x00FF;
+        cpu->_v[(opcode & 0x0F00) >> 8] = opcode & 0x00FF;
         cpu->_pc+=2;
     }
     
     //7XNN Adds NN to v[X]
     void Opcodes::AddNToX(Chip8::CPU *cpu, unsigned short opcode)
     {
-        cpu->_v[(cpu->_opcode & 0x0F00) >> 8] += cpu->_opcode & 0x00FF;
+        cpu->_v[(opcode & 0x0F00) >> 8] += opcode & 0x00FF;
         cpu->_pc+=2;
     }
     
@@ -137,53 +158,53 @@ namespace Chip8
         switch(cpu->_opcode & 0x000F)
         {
             case 0x0000: //Set v[X] to the value of v[Y]
-                cpu->_v[(cpu->_opcode & 0x0F00) >> 8] = cpu->_v[(cpu->_opcode & 0x00F0) >> 4];
+                cpu->_v[(opcode & 0x0F00) >> 8] = cpu->_v[(opcode & 0x00F0) >> 4];
                 cpu->_pc+=2;
                 break;
             case 0x0001: //Set v[X] to v[X] OR v[Y]
-                cpu->_v[(cpu->_opcode & 0x0F00) >> 8] |= cpu->_v[(cpu->_opcode & 0x00F0) >> 4];
+                cpu->_v[(opcode & 0x0F00) >> 8] |= cpu->_v[(opcode & 0x00F0) >> 4];
                 cpu->_pc+=2;
                 break;
             case 0x0002: //Set v[X] to v[X] AND v[Y]
-                cpu->_v[(cpu->_opcode & 0x0F00) >> 8] &= cpu->_v[(cpu->_opcode & 0x00F0) >> 4];
+                cpu->_v[(opcode & 0x0F00) >> 8] &= cpu->_v[(opcode & 0x00F0) >> 4];
                 cpu->_pc+=2;
                 break;
             case 0x0003: //Set v[X] to v[X] XOR v[Y]
-                cpu->_v[(cpu->_opcode & 0x0F00) >> 8] ^= cpu->_v[(cpu->_opcode & 0x00F0) >> 4];
+                cpu->_v[(opcode & 0x0F00) >> 8] ^= cpu->_v[(opcode & 0x00F0) >> 4];
                 cpu->_pc+=2;
                 break;
             case 0x0004: //Adds v[Y] to v[X] ands sets carry bit if required
-                if (cpu->_v[(cpu->_opcode & 0x00F0) >> 4] > (0xFF - cpu->_v[(cpu->_opcode & 0x0F00) >> 8]))
+                if (cpu->_v[(opcode & 0x00F0) >> 4] > (0xFF - cpu->_v[(opcode & 0x0F00) >> 8]))
                     cpu->_v[0xF] = 1;
                 else
                     cpu->_v[0xF] = 0;
-                cpu->_v[(cpu->_opcode & 0x0F00) >> 8] += cpu->_v[(cpu->_opcode & 0x00F0) >> 4];
+                cpu->_v[(opcode & 0x0F00) >> 8] += cpu->_v[(opcode & 0x00F0) >> 4];
                 cpu->_pc+=2;
                 break;
             case 0x0005: //Subtracts v[Y] from v[X] and sets carry bit if required
-                if (cpu->_v[(cpu->_opcode & 0x00F0) >> 4] > cpu->_v[(cpu->_opcode & 0x0F00) >> 8])
+                if (cpu->_v[(opcode & 0x00F0) >> 4] > cpu->_v[(opcode & 0x0F00) >> 8])
                     cpu->_v[0xF] = 0;
                 else
                     cpu->_v[0xF] = 1;
-                cpu->_v[(cpu->_opcode & 0x0F00) >> 8] -= cpu->_v[(cpu->_opcode & 0x00F0) >> 4];
+                cpu->_v[(opcode & 0x0F00) >> 8] -= cpu->_v[(opcode & 0x00F0) >> 4];
                 cpu->_pc+=2;
                 break;
             case 0x0006: //Shifts v[X] right by one stores the LSB in v[F](before shift)
-                cpu->_v[0xF] = cpu->_v[(cpu->_opcode & 0x0F00) >> 8] & 0x1;
-                cpu->_v[(cpu->_opcode & 0x0F00) >> 8] >>= 1;
+                cpu->_v[0xF] = cpu->_v[(opcode & 0x0F00) >> 8] & 0x1;
+                cpu->_v[(opcode & 0x0F00) >> 8] >>= 1;
                 cpu->_pc+=2;
                 break;
             case 0x0007: //v[X] = v[Y] - v[X], v[F] = 0 when borrow required
-                if (cpu->_v[(cpu->_opcode & 0x0F00) >> 8] > cpu->_v[(cpu->_opcode & 0x00F0) >> 4])
+                if (cpu->_v[(opcode & 0x0F00) >> 8] > cpu->_v[(opcode & 0x00F0) >> 4])
                     cpu->_v[0xF] = 0;
                 else
                     cpu->_v[0X0] = 1;
-                cpu->_v[(cpu->_opcode & 0x0F00) >> 8] = cpu->_v[(cpu->_opcode & 0x00F0) >> 4] - cpu->_v[(cpu->_opcode & 0x0F00) >> 8];
+                cpu->_v[(opcode & 0x0F00) >> 8] = cpu->_v[(opcode & 0x00F0) >> 4] - cpu->_v[(opcode & 0x0F00) >> 8];
                 cpu->_pc+=2;
                 break;
             case 0x000E: //Shift v[X] left by one and set v[F] to MSB before shift
-                cpu->_v[0xF] = cpu->_v[(cpu->_opcode & 0x0F00) >> 8] >> 7;
-                cpu->_v[(cpu->_opcode & 0x0F00) >> 8] <<= 1;
+                cpu->_v[0xF] = cpu->_v[(opcode & 0x0F00) >> 8] >> 7;
+                cpu->_v[(opcode & 0x0F00) >> 8] <<= 1;
                 cpu->_pc+=2;
                 break;
             default:
@@ -194,7 +215,7 @@ namespace Chip8
     
     void Opcodes::NineCodes(Chip8::CPU *cpu, unsigned short opcode)
     {
-        if (cpu->_v[(cpu->_opcode & 0x0F00) >> 8] != cpu->_v[(cpu->_opcode & 0x00F0) >> 4])
+        if (cpu->_v[(opcode & 0x0F00) >> 8] != cpu->_v[(opcode & 0x00F0) >> 4])
             cpu->_pc += 4;
         else
             cpu->_pc += 2;
@@ -202,27 +223,27 @@ namespace Chip8
     
     void Opcodes::ACodes(Chip8::CPU *cpu, unsigned short opcode)
     {
-        cpu->_I = cpu->_opcode & 0x0FFF;
+        cpu->_I = opcode & 0x0FFF;
         cpu->_pc += 2;
     }
     
     void Opcodes::BCodes(Chip8::CPU *cpu, unsigned short opcode)
     {
-        cpu->_pc = (cpu->_opcode & 0x0FFF) + cpu->_v[0];
+        cpu->_pc = (opcode & 0x0FFF) + cpu->_v[0];
     }
     
     void Opcodes::CCodes(Chip8::CPU *cpu, unsigned short opcode)
     {
-        cpu->_v[(cpu->_opcode & 0x0F00) >> 8] = (rand() % 0xFF) & (cpu->_opcode & 0x00FF);
+        cpu->_v[(opcode & 0x0F00) >> 8] = (rand() % 0xFF) & (opcode & 0x00FF);
         cpu->_pc+=2;
     }
     
     void Opcodes::DCodes(Chip8::CPU *cpu, unsigned short opcode)
     {
         {
-            const unsigned short x = cpu->_v[(cpu->_opcode & 0x0F00) >> 8];
-            const unsigned short y = cpu->_v[(cpu->_opcode & 0x00F0) >> 4];
-            const short height = cpu->_opcode & 0x000F;
+            const unsigned short x = cpu->_v[(opcode & 0x0F00) >> 8];
+            const unsigned short y = cpu->_v[(opcode & 0x00F0) >> 4];
+            const short height = opcode & 0x000F;
             short pixel;
             cpu->_v[0xF] = 0;
             for (int yline = 0 ; yline < height ; ++yline)
@@ -245,18 +266,18 @@ namespace Chip8
     
     void Opcodes::ECodes(Chip8::CPU *cpu, unsigned short opcode)
     {
-        switch(cpu->_opcode & 0x00FF)
+        switch(opcode & 0x00FF)
         {
                 //0xEX9E skips the next instruction
                 //if the key stored in VX is pressed
             case 0x009E:
-                if (cpu->_keys[cpu->_v[(cpu->_opcode & 0x0F00) >> 8]] != 0)
+                if (cpu->_keys[cpu->_v[(opcode & 0x0F00) >> 8]] != 0)
                     cpu->_pc += 4;
                 else
                     cpu->_pc += 2;
                 break;
             case 0x00A1: //Skips the next instruction if the key in v[X] isn't pressed
-                if (cpu->_keys[cpu->_v[(cpu->_opcode & 0x0F00) >> 8]] == 0)
+                if (cpu->_keys[cpu->_v[(opcode & 0x0F00) >> 8]] == 0)
                     cpu->_pc += 4;
                 else
                     cpu->_pc += 2;
@@ -267,72 +288,96 @@ namespace Chip8
         }
     }
     
-    void Opcodes::FCodes(Chip8::CPU *cpu, unsigned short opcodes)
+    void Opcodes::ExecuteFCode(Chip8::CPU *cpu, unsigned short opcode)
     {
-        switch(cpu->_opcode & 0x00FF)
-        {
-            case 0x0007: //Set v[X] to the value of delayTimer
-                cpu->_v[(cpu->_opcode & 0x0F00) >> 8] = cpu->_delayTimer;
-                cpu->_pc+=2;
-                break;
-            case 0x00A: //Wait for a key press then store it in v[X]
-            {
-                bool keyPress = false;
-                for (int i = 0 ; i < 16 ; ++i)
-                {
-                    if (cpu->_keys[i] != 0)
-                    {
-                        cpu->_v[(cpu->_opcode & 0x0F00) >> 8] = i;
-                        keyPress = true;
-                    }
-                }
-                if (!keyPress) return;
-                cpu->_pc += 2;
-            }
-                break;
-            case 0x0015: //Sets the delayTimer to v[X]
-                cpu->_delayTimer = cpu->_v[(cpu->_opcode & 0x0F00) >> 8];
-                cpu->_pc+=2;
-                break;
-            case 0x0018: //Set the sound timer to v[]
-                cpu->_soundTimer = cpu->_v[(cpu->_opcode & 0x0F00) >> 8];
-                cpu->_pc+=2;
-                break;
-            case 0x001E: //Adds v[X] to I
-                if (cpu->_I + cpu->_v[(cpu->_opcode & 0x0F00) >> 8] > 0xFFF) //Check if we need to set the carry flag
-                    cpu->_v[0xF] = 1;
-                else
-                    cpu->_v[0xF] = 0;
-                cpu->_I += cpu->_v[(cpu->_opcode & 0x0F00) >> 8];
-                cpu->_pc+=2;
-                break;
-            case 0x0029: //Sets I to the location of the sprite for the character in v[X].
-                cpu->_I = cpu->_v[(cpu->_opcode & 0x0F00) >> 8] * 0.5;
-                cpu->_pc+=2;
-                break;
-            case 0x0033: //Stores the binary representation of v[X] at I, I+1 and I+2
-                cpu->_memory[cpu->_I]   = cpu->_v[(cpu->_opcode & 0x0F00) >> 8] / 100;
-                cpu->_memory[cpu->_I+1] = (cpu->_v[(cpu->_opcode & 0x0F00) >> 8] / 10) % 10;
-                cpu->_memory[cpu->_I+2] = (cpu->_v[(cpu->_opcode & 0x0F00) >> 8] % 100) % 10;
-                cpu->_pc+=2;
-                break;
-            case 0x0055: //Stores v[0] to v[X] in memory starting at address I
-                for (int i = 0 ; i < ((cpu->_opcode & 0x0F00) >> 8) ; ++i)
-                    cpu->_memory[cpu->_I+i] = cpu->_v[i];
-                //The original interpreter set I to I + X + 1
-                cpu->_I += ((cpu->_opcode & 0x0F00) >> 8) + 1;
-                cpu->_pc+=2;
-                break;
-            case 0x0065: //Fills v[0] to v[X] with values from memory starting at I
-                for (int i = 0 ; i <= ((cpu->_opcode & 0x0F00) >> 8) ; ++i)
-                    cpu->_v[i] = cpu->_memory[cpu->_I+i];
-                //The original interpreter set I to I + X + 1
-                cpu->_I += ((cpu->_opcode & 0x0F00) >> 8) + 1;
-                cpu->_pc+=2;
-                break;
-            default:
-                printf("\t%s\n", "Unknown 0xF000 domain opcode");
-                break;
-        }
+        _fCodeTable[opcode & 0x00FF](cpu, opcode);
     }
+    
+#pragma mark - F Codes
+    
+    //Set v[X] to the value of delayTimer
+    void Opcodes::SetVXToDelay(Chip8::CPU *cpu, unsigned short opcode)
+    {
+        cpu->_v[(opcode & 0x0F00) >> 8] = cpu->_delayTimer;
+        cpu->_pc+=2;
+    }
+    
+    //Wait for a key press then store it in v[X]
+    void Opcodes::StoreKeyInVX(Chip8::CPU *cpu, unsigned short opcode)
+    {
+        bool keyPress = false;
+        for (int i = 0 ; i < 16 ; ++i)
+        {
+            if (cpu->_keys[i] != 0)
+            {
+                cpu->_v[(opcode & 0x0F00) >> 8] = i;
+                keyPress = true;
+            }
+        }
+        if (!keyPress) return;
+        cpu->_pc += 2;
+    }
+    
+    //Sets the delayTimer to v[X]
+    void Opcodes::SetDelayTimerToVX(Chip8::CPU *cpu, unsigned short opcode)
+    {
+        cpu->_delayTimer = cpu->_v[(opcode & 0x0F00) >> 8];
+        cpu->_pc+=2;
+    }
+    
+    //Set the sound timer to v[]
+    void Opcodes::SetSoundTimerToVX(Chip8::CPU *cpu, unsigned short opcode)
+    {
+        cpu->_soundTimer = cpu->_v[(opcode & 0x0F00) >> 8];
+        cpu->_pc+=2;
+    }
+    
+    //Adds v[X] to I
+    void Opcodes::AddVXToI(Chip8::CPU *cpu, unsigned short opcode)
+    {
+        if (cpu->_I + cpu->_v[(opcode & 0x0F00) >> 8] > 0xFFF) //Check if we need to set the carry flag
+            cpu->_v[0xF] = 1;
+        else
+            cpu->_v[0xF] = 0;
+        cpu->_I += cpu->_v[(opcode & 0x0F00) >> 8];
+        cpu->_pc+=2;
+    }
+    
+    //Sets I to the location of the sprite for the character in v[X].
+    void Opcodes::SetIToSpriteLocation(Chip8::CPU *cpu, unsigned short opcode)
+    {
+        cpu->_I = cpu->_v[(opcode & 0x0F00) >> 8] * 0.5;
+        cpu->_pc+=2;
+    }
+    
+    //Stores the binary representation of v[X] at I, I+1 and I+2
+    void Opcodes::StoreVXAtI(Chip8::CPU *cpu, unsigned short opcode)
+    {
+        cpu->_memory[cpu->_I]   = cpu->_v[(opcode & 0x0F00) >> 8] / 100;
+        cpu->_memory[cpu->_I+1] = (cpu->_v[(opcode & 0x0F00) >> 8] / 10) % 10;
+        cpu->_memory[cpu->_I+2] = (cpu->_v[(opcode & 0x0F00) >> 8] % 100) % 10;
+        cpu->_pc+=2;
+    }
+    
+    //Stores v[0] to v[X] in memory starting at address I
+    void Opcodes::StoreContentOfVAtI(Chip8::CPU *cpu, unsigned short opcode)
+    {
+        for (int i = 0 ; i < ((opcode & 0x0F00) >> 8) ; ++i)
+            cpu->_memory[cpu->_I+i] = cpu->_v[i];
+        //The original interpreter set I to I + X + 1
+        cpu->_I += ((opcode & 0x0F00) >> 8) + 1;
+        cpu->_pc+=2;
+    }
+    
+    //Fills v[0] to v[X] with values from memory starting at I
+    void Opcodes::FillContentOfVFromI(Chip8::CPU *cpu, unsigned short opcode)
+    {
+        for (int i = 0 ; i <= ((opcode & 0x0F00) >> 8) ; ++i)
+            cpu->_v[i] = cpu->_memory[cpu->_I+i];
+        //The original interpreter set I to I + X + 1
+        cpu->_I += ((opcode & 0x0F00) >> 8) + 1;
+        cpu->_pc+=2;
+    }
+    
+#pragma mark -
 }
