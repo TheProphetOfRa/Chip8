@@ -30,18 +30,18 @@ namespace Chip8
 #pragma mark - Opcodes
         
         void ExecuteZeroCode();
-        void JumpToAddr();
-        void CallSubAtAddr();
-        void SkipInstrIf();
-        void SkipInstrIfNot();
-        void SkipInstrIfXY();
-        void SetX();
-        void AddNToX();
+        void Jump();
+        void Call();
+        void IfEqual();
+        void IfNotEqual();
+        void IfEqualRegister();
+        void Assign();
+        void Add();
         void ExecuteEightCode();
-        void NineCodes();
-        void SetI();
-        void JumpToAddrPlusVZero();
-        void SetVXToRandomNumber();
+        void IfNotEqualRegister();
+        void SetAddress();
+        void JumpAddress();
+        void Rand();
         void RenderSprite();
         void ExecuteECode();
         void ExecuteFCode();
@@ -53,32 +53,32 @@ namespace Chip8
         
 #pragma mark - 8 Codes
         
-        void SetVXToVY();
-        void SetVXToVXORVY();
-        void SetVXToVXANDVY();
-        void SetVXToVXXORVY();
-        void AddVYToVXAndCarry();
-        void SubVYFromVXAndCarry();
-        void ShiftVXRight();
-        void SubVXFromVY();
-        void ShiftVXLeft();
+        void AssignRegister();
+        void Or();
+        void And();
+        void Xor();
+        void AddRegister();
+        void SubtractRegister();
+        void ShiftRight();
+        void Subtract();
+        void ShiftLeft();
         
 #pragma mark - E Codes
         
-        void SkipIfKeyPressed();
-        void SkipIfKeyNotPressed();
+        void KeyPressed();
+        void KeyNotPressed();
         
 #pragma mark - F Codes
         
-        void SetVXToDelay();
-        void StoreKeyInVX();
-        void SetDelayTimerToVX();
-        void SetSoundTimerToVX();
-        void AddVXToI();
-        void SetIToSpriteLocation();
-        void StoreVXAtI();
-        void StoreContentOfVAtI();
-        void FillContentOfVFromI();
+        void GetDelayTimer();
+        void GetKeyPressed();
+        void SetDelayTimer();
+        void SetSoundTimer();
+        void AddAddress();
+        void HexSprite();
+        void StoreBCD();
+        void SaveRegisters();
+        void LoadRegisters();
         
 #pragma mark -
     private:
