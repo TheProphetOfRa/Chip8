@@ -10,7 +10,6 @@
 		1CA0A3491D34DBF70014F793 /* libglfw3.3.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CA0A3481D34DBF70014F793 /* libglfw3.3.1.dylib */; };
 		5F2052FF1C050FFB0021F9DA /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F2052FD1C050FFB0021F9DA /* Application.cpp */; };
 		5F2053021C0510240021F9DA /* Application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F2053001C0510240021F9DA /* Application.cpp */; };
-		5F2053051C0514850021F9DA /* opcodes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F2053031C0514850021F9DA /* opcodes.cpp */; };
 		5F220C5B1BE415C600272D21 /* CPU.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F220C591BE415C600272D21 /* CPU.cpp */; };
 		5F67B2231C03A55E00D652BF /* libGLEW.1.13.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F67B2221C03A55E00D652BF /* libGLEW.1.13.0.dylib */; };
 		5F98ECD81BE2DAFB00CC4987 /* RasApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5F98ECC31BE2DAFB00CC4987 /* RasApplication.cpp */; };
@@ -46,8 +45,6 @@
 		5F2052FE1C050FFB0021F9DA /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
 		5F2053001C0510240021F9DA /* Application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Application.cpp; sourceTree = "<group>"; };
 		5F2053011C0510240021F9DA /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
-		5F2053031C0514850021F9DA /* opcodes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = opcodes.cpp; sourceTree = "<group>"; };
-		5F2053041C0514850021F9DA /* opcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = opcodes.h; sourceTree = "<group>"; };
 		5F220C591BE415C600272D21 /* CPU.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CPU.cpp; sourceTree = "<group>"; };
 		5F220C5A1BE415C600272D21 /* CPU.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPU.h; sourceTree = "<group>"; };
 		5F67B2221C03A55E00D652BF /* libGLEW.1.13.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.1.13.0.dylib; path = ../../../../../usr/local/Cellar/glew/1.13.0/lib/libGLEW.1.13.0.dylib; sourceTree = "<group>"; };
@@ -199,8 +196,6 @@
 				5F2052FE1C050FFB0021F9DA /* Application.h */,
 				5F9C1ADC1A2D343200FC5702 /* cpu.cpp */,
 				5F9C1ADD1A2D343200FC5702 /* cpu.h */,
-				5F2053031C0514850021F9DA /* opcodes.cpp */,
-				5F2053041C0514850021F9DA /* opcodes.h */,
 			);
 			path = Chip8;
 			sourceTree = "<group>";
@@ -294,7 +289,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F2053051C0514850021F9DA /* opcodes.cpp in Sources */,
 				5F98ECE21BE2DB8C00CC4987 /* FileUtils.cpp in Sources */,
 				5F220C5B1BE415C600272D21 /* CPU.cpp in Sources */,
 				5F2052FF1C050FFB0021F9DA /* Application.cpp in Sources */,

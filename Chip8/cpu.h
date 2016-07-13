@@ -1,18 +1,10 @@
 #pragma once
 
-#include "opcodes.h"
-
-#include <functional>
-#include <unordered_map>
-
 namespace Chip8
 {
     class CPU
     {
     public:
-        
-        friend class Opcodes;
-        
         const static int kScreenWidth = 64;
         const static int kScreenHeight = 32;
 
@@ -32,7 +24,63 @@ namespace Chip8
         void Execute(void);
 
         void UpdateTimers(void);
-
+        
+    private: //Opcodes
+        
+#pragma mark - Opcodes
+        
+        void ExecuteZeroCode();
+        void JumpToAddr();
+        void CallSubAtAddr();
+        void SkipInstrIf();
+        void SkipInstrIfNot();
+        void SkipInstrIfXY();
+        void SetX();
+        void AddNToX();
+        void ExecuteEightCode();
+        void NineCodes();
+        void SetI();
+        void JumpToAddrPlusVZero();
+        void SetVXToRandomNumber();
+        void RenderSprite();
+        void ExecuteECode();
+        void ExecuteFCode();
+        
+#pragma mark - 0 Codes
+        
+        void ClearScreen();
+        void ReturnFromSub();
+        
+#pragma mark - 8 Codes
+        
+        void SetVXToVY();
+        void SetVXToVXORVY();
+        void SetVXToVXANDVY();
+        void SetVXToVXXORVY();
+        void AddVYToVXAndCarry();
+        void SubVYFromVXAndCarry();
+        void ShiftVXRight();
+        void SubVXFromVY();
+        void ShiftVXLeft();
+        
+#pragma mark - E Codes
+        
+        void SkipIfKeyPressed();
+        void SkipIfKeyNotPressed();
+        
+#pragma mark - F Codes
+        
+        void SetVXToDelay();
+        void StoreKeyInVX();
+        void SetDelayTimerToVX();
+        void SetSoundTimerToVX();
+        void AddVXToI();
+        void SetIToSpriteLocation();
+        void StoreVXAtI();
+        void StoreContentOfVAtI();
+        void FillContentOfVFromI();
+        
+#pragma mark -
     private:
         unsigned short _opcode;
         unsigned char _memory[4096];
@@ -47,7 +95,5 @@ namespace Chip8
         unsigned char _keys[16];
 
         bool _drawFlag;
-        
-        Opcodes opcodes;
     };
 }
