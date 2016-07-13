@@ -125,18 +125,18 @@ namespace Chip8
         switch (_opcode & 0xF000)
         {
             case 0x0000: ExecuteZeroCode(); break;
-            case 0x1000: JumpToAddr(); break;
-            case 0x2000: CallSubAtAddr(); break;
-            case 0x3000: SkipInstrIf(); break;
-            case 0x4000: SkipInstrIfNot(); break;
-            case 0x5000: SkipInstrIfXY(); break;
-            case 0x6000: SetX(); break;
-            case 0x7000: AddNToX(); break;
+            case 0x1000: Jump(); break;
+            case 0x2000: Call(); break;
+            case 0x3000: IfEqual(); break;
+            case 0x4000: IfNotEqual(); break;
+            case 0x5000: IfEqualRegister(); break;
+            case 0x6000: Assign(); break;
+            case 0x7000: Add(); break;
             case 0x8000: ExecuteEightCode(); break;
-            case 0x9000: NineCodes(); break;
-            case 0xA000: SetI(); break;
-            case 0xB000: JumpToAddrPlusVZero(); break;
-            case 0xC000: SetVXToRandomNumber(); break;
+            case 0x9000: IfNotEqualRegister(); break;
+            case 0xA000: SetAddress(); break;
+            case 0xB000: JumpAddress(); break;
+            case 0xC000: Rand(); break;
             case 0xD000: RenderSprite(); break;
             case 0xE000: ExecuteECode(); break;
             case 0xF000: ExecuteFCode(); break;
@@ -186,13 +186,13 @@ namespace Chip8
     }
     
     //1NNN Jump to address NNN
-    void CPU::JumpToAddr()
+    void CPU::Jump()
     {
         _pc = _opcode & 0x0FFF;
     }
     
     //2NNN call subroutine at NNN
-    void CPU::CallSubAtAddr()
+    void CPU::Call()
     {
         //Push the memory location onto the stack for the subroutine return
         _stack[_pStack] = _pc;
@@ -201,7 +201,7 @@ namespace Chip8
     }
     
     //3XNN Skip next instruction if v[X] == NN
-    void CPU::SkipInstrIf()
+    void CPU::IfEqual()
     {
         if (_v[(_opcode & 0x0F00) >> 8] == (_opcode & 0x00FF))
             _pc += 4;
@@ -210,7 +210,7 @@ namespace Chip8
     }
     
     //4XNN Skip next instruction if v[X] != NN
-    void CPU::SkipInstrIfNot()
+    void CPU::IfNotEqual()
     {
         if (_v[(_opcode & 0x0F00) >> 8] != (_opcode & 0x00FF))
             _pc += 4;
@@ -219,7 +219,7 @@ namespace Chip8
     }
     
     //5XY0 Skip next instruction if v[X] == v[Y]
-    void CPU::SkipInstrIfXY()
+    void CPU::IfEqualRegister()
     {
         if (_v[(_opcode & 0X0F00) >> 8] == _v[(_opcode & 0x00F0) >> 4])
             _pc += 4;
@@ -228,14 +228,14 @@ namespace Chip8
     }
     
     //6XNN Sets v[X] to NN
-    void CPU::SetX()
+    void CPU::Assign()
     {
         _v[(_opcode & 0x0F00) >> 8] = _opcode & 0x00FF;
         _pc+=2;
     }
     
     //7XNN Adds NN to v[X]
-    void CPU::AddNToX()
+    void CPU::Add()
     {
         _v[(_opcode & 0x0F00) >> 8] += _opcode & 0x00FF;
         _pc+=2;
@@ -245,19 +245,19 @@ namespace Chip8
     {
         switch (_opcode & 0x000F)
         {
-            case 0x0000: SetVXToVY(); break;
-            case 0x0001: SetVXToVXXORVY(); break;
-            case 0x0002: SetVXToVXANDVY(); break;
-            case 0x0003: SetVXToVXXORVY(); break;
-            case 0x0004: AddVYToVXAndCarry(); break;
-            case 0x0005: SubVYFromVXAndCarry(); break;
-            case 0x0006: ShiftVXRight(); break;
-            case 0x0007: SubVXFromVY(); break;
-            case 0x000E: ShiftVXLeft(); break;
+            case 0x0000: AssignRegister(); break;
+            case 0x0001: Or(); break;
+            case 0x0002: And(); break;
+            case 0x0003: Xor(); break;
+            case 0x0004: AddRegister(); break;
+            case 0x0005: SubtractRegister(); break;
+            case 0x0006: ShiftRight(); break;
+            case 0x0007: Subtract(); break;
+            case 0x000E: ShiftLeft(); break;
         }
     }
     
-    void CPU::NineCodes()
+    void CPU::IfNotEqualRegister()
     {
         if (_v[(_opcode & 0x0F00) >> 8] != _v[(_opcode & 0x00F0) >> 4])
             _pc += 4;
@@ -266,20 +266,20 @@ namespace Chip8
     }
     
     //Set I to the adress 0x0NNN
-    void CPU::SetI()
+    void CPU::SetAddress()
     {
         _I = _opcode & 0x0FFF;
         _pc += 2;
     }
     
     //Jump to address at 0x0NNN + v[0]
-    void CPU::JumpToAddrPlusVZero()
+    void CPU::JumpAddress()
     {
         _pc = (_opcode & 0x0FFF) + _v[0];
     }
     
     //Set v[x] to random number & 0x00NN
-    void CPU::SetVXToRandomNumber()
+    void CPU::Rand()
     {
         _v[(_opcode & 0x0F00) >> 8] = (rand() % 0xFF) & (_opcode & 0x00FF);
         _pc+=2;
@@ -314,8 +314,8 @@ namespace Chip8
     {
         switch (_opcode & 0x00FF)
         {
-            case 0x009E: SkipIfKeyPressed(); break;
-            case 0x00A1: SkipIfKeyNotPressed(); break;
+            case 0x009E: KeyPressed(); break;
+            case 0x00A1: KeyNotPressed(); break;
         }
     }
     
@@ -323,15 +323,15 @@ namespace Chip8
     {
         switch (_opcode & 0x00FF)
         {
-            case 0x0007: SetVXToDelay(); break;
-            case 0x000A: StoreKeyInVX(); break;
-            case 0x0015: SetDelayTimerToVX(); break;
-            case 0x0018: SetSoundTimerToVX(); break;
-            case 0x001E: AddVXToI(); break;
-            case 0x0029: SetIToSpriteLocation(); break;
-            case 0x0033: StoreVXAtI(); break;
-            case 0x0055: StoreContentOfVAtI(); break;
-            case 0x0065: FillContentOfVFromI(); break;
+            case 0x0007: GetDelayTimer(); break;
+            case 0x000A: GetKeyPressed(); break;
+            case 0x0015: SetDelayTimer(); break;
+            case 0x0018: SetSoundTimer(); break;
+            case 0x001E: AddAddress(); break;
+            case 0x0029: HexSprite(); break;
+            case 0x0033: StoreBCD(); break;
+            case 0x0055: SaveRegisters(); break;
+            case 0x0065: LoadRegisters(); break;
         }
     }
     
@@ -354,35 +354,35 @@ namespace Chip8
 #pragma mark - 8 Codes
     
     //Set v[X] to the value of v[Y]
-    void CPU::SetVXToVY()
+    void CPU::AssignRegister()
     {
         _v[(_opcode & 0x0F00) >> 8] = _v[(_opcode & 0x00F0) >> 4];
         _pc+=2;
     }
     
     //Set v[X] to v[X] OR v[Y]
-    void CPU::SetVXToVXORVY()
+    void CPU::Or()
     {
         _v[(_opcode & 0x0F00) >> 8] |= _v[(_opcode & 0x00F0) >> 4];
         _pc+=2;
     }
     
     //Set v[X] to v[X] AND v[Y]
-    void CPU::SetVXToVXANDVY()
+    void CPU::And()
     {
         _v[(_opcode & 0x0F00) >> 8] &= _v[(_opcode & 0x00F0) >> 4];
         _pc+=2;
     }
     
     //Set v[X] to v[X] XOR v[Y]
-    void CPU::SetVXToVXXORVY()
+    void CPU::Xor()
     {
         _v[(_opcode & 0x0F00) >> 8] ^= _v[(_opcode & 0x00F0) >> 4];
         _pc+=2;
     }
     
     //Adds v[Y] to v[X] ands sets carry bit if required
-    void CPU::AddVYToVXAndCarry()
+    void CPU::AddRegister()
     {
         if (_v[(_opcode & 0x00F0) >> 4] > (0xFF - _v[(_opcode & 0x0F00) >> 8]))
             _v[0xF] = 1;
@@ -393,7 +393,7 @@ namespace Chip8
     }
     
     //Subtracts v[Y] from v[X] and sets carry bit if required
-    void CPU::SubVYFromVXAndCarry()
+    void CPU::SubtractRegister()
     {
         if (_v[(_opcode & 0x00F0) >> 4] > _v[(_opcode & 0x0F00) >> 8])
             _v[0xF] = 0;
@@ -404,7 +404,7 @@ namespace Chip8
     }
     
     //Shifts v[X] right by one stores the LSB in v[F](before shift)
-    void CPU::ShiftVXRight()
+    void CPU::ShiftRight()
     {
         _v[0xF] = _v[(_opcode & 0x0F00) >> 8] & 0x1;
         _v[(_opcode & 0x0F00) >> 8] >>= 1;
@@ -412,7 +412,7 @@ namespace Chip8
     }
     
     //v[X] = v[Y] - v[X], v[F] = 0 when borrow required
-    void CPU::SubVXFromVY()
+    void CPU::Subtract()
     {
         if (_v[(_opcode & 0x0F00) >> 8] > _v[(_opcode & 0x00F0) >> 4])
             _v[0xF] = 0;
@@ -423,7 +423,7 @@ namespace Chip8
     }
     
     //Shift v[X] left by one and set v[F] to MSB before shift
-    void CPU::ShiftVXLeft()
+    void CPU::ShiftLeft()
     {
         _v[0xF] = _v[(_opcode & 0x0F00) >> 8] >> 7;
         _v[(_opcode & 0x0F00) >> 8] <<= 1;
@@ -434,7 +434,7 @@ namespace Chip8
     
     //0xEX9E skips the next instruction
     //if the key stored in VX is pressed
-    void CPU::SkipIfKeyPressed()
+    void CPU::KeyPressed()
     {
         if (_keys[_v[(_opcode & 0x0F00) >> 8]] != 0)
             _pc += 4;
@@ -443,7 +443,7 @@ namespace Chip8
     }
     
     //Skips the next instruction if the key in v[X] isn't pressed
-    void CPU::SkipIfKeyNotPressed()
+    void CPU::KeyNotPressed()
     {
         if (_keys[_v[(_opcode & 0x0F00) >> 8]] == 0)
             _pc += 4;
@@ -454,14 +454,14 @@ namespace Chip8
 #pragma mark - F Codes
     
     //Set v[X] to the value of delayTimer
-    void CPU::SetVXToDelay()
+    void CPU::GetDelayTimer()
     {
         _v[(_opcode & 0x0F00) >> 8] = _delayTimer;
         _pc+=2;
     }
     
     //Wait for a key press then store it in v[X]
-    void CPU::StoreKeyInVX()
+    void CPU::GetKeyPressed()
     {
         bool keyPress = false;
         for (int i = 0 ; i < 16 ; ++i)
@@ -477,21 +477,21 @@ namespace Chip8
     }
     
     //Sets the delayTimer to v[X]
-    void CPU::SetDelayTimerToVX()
+    void CPU::SetDelayTimer()
     {
         _delayTimer = _v[(_opcode & 0x0F00) >> 8];
         _pc+=2;
     }
     
     //Set the sound timer to v[]
-    void CPU::SetSoundTimerToVX()
+    void CPU::SetSoundTimer()
     {
         _soundTimer = _v[(_opcode & 0x0F00) >> 8];
         _pc+=2;
     }
     
     //Adds v[X] to I
-    void CPU::AddVXToI()
+    void CPU::AddAddress()
     {
         if (_I + _v[(_opcode & 0x0F00) >> 8] > 0xFFF) //Check if we need to set the carry flag
             _v[0xF] = 1;
@@ -502,14 +502,14 @@ namespace Chip8
     }
     
     //Sets I to the location of the sprite for the character in v[X].
-    void CPU::SetIToSpriteLocation()
+    void CPU::HexSprite()
     {
         _I = _v[(_opcode & 0x0F00) >> 8] * 0.5;
         _pc+=2;
     }
     
     //Stores the binary representation of v[X] at I, I+1 and I+2
-    void CPU::StoreVXAtI()
+    void CPU::StoreBCD()
     {
         _memory[_I]   = _v[(_opcode & 0x0F00) >> 8] / 100;
         _memory[_I+1] = (_v[(_opcode & 0x0F00) >> 8] / 10) % 10;
@@ -518,7 +518,7 @@ namespace Chip8
     }
     
     //Stores v[0] to v[X] in memory starting at address I
-    void CPU::StoreContentOfVAtI()
+    void CPU::SaveRegisters()
     {
         for (int i = 0 ; i < ((_opcode & 0x0F00) >> 8) ; ++i)
             _memory[_I+i] = _v[i];
@@ -528,7 +528,7 @@ namespace Chip8
     }
     
     //Fills v[0] to v[X] with values from memory starting at I
-    void CPU::FillContentOfVFromI()
+    void CPU::LoadRegisters()
     {
         for (int i = 0 ; i <= ((_opcode & 0x0F00) >> 8) ; ++i)
             _v[i] = _memory[_I+i];
