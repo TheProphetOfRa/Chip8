@@ -9,7 +9,7 @@
 #ifndef Application_h
 #define Application_h
 
-#include "Chip8/cpu.h"
+#include "GB/CPU.h"
 
 #include "Application/RasApplication.h"
 #include "View/Node.h"
@@ -27,7 +27,7 @@ namespace GB
         bool Init();
     private:
         Ras2D::Node *_node;
-        Chip8::CPU *_cpu;
+        CPU *_cpu;
         
         std::vector<bool> _keys;
     };

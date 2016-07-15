@@ -7,6 +7,7 @@
 //
 
 #include "Chip8/Application.h"
+#include "GB/Application.h"
 
 #include <assert.h>
 #include <iostream>
@@ -14,6 +15,7 @@
 int main(int argc, const char * argv[])
 {
 	Chip8::Application* app = Chip8::Application::Create();
+    //GB::Application* app = GB::Application::Create();
 	assert(app);
 	app->Run();
 

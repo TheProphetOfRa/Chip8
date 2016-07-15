@@ -1,84 +1,96 @@
 //
-//  CPU.hpp
+//  CPU.h
 //  GB Emulator
 //
 //  Created by David Hodgkinson on 30/10/2015.
 //  Copyright © 2015 David Hodgkinson. All rights reserved.
 //
 
-#ifndef CPU_hpp
-#define CPU_hpp
+#pragma once
+
+#include <stdint.h>
 
 namespace GB
 {
-    typedef unsigned char BYTE;
-    typedef char SIGNED_BYTE;
-    typedef unsigned short WORD;
-    typedef signed short SIGNED_WORD;
-    
     class CPU
     {
     public:
-        
         CPU();
+        ~CPU();
         
-        void LoadGame(const char* filename);
+        bool Init();
         
-        void Update();
-    private:
-        void WriteMemory(WORD address, BYTE data);
+        bool LoadGame(const char* filename);
         
-        int ExecuteNextOpcode();
-        void UpdateTimers(int cycles);
-        void UpdateGraphics(int cycles);
-        void DoInterupts();
+        void EmulateCycle();
         
-        void Render();
     private:
         
-        BYTE _cartridgeMemory[0x200000];
-        BYTE _screenData[160][144][3];
-        BYTE _rom[0x10000];
         
-        union Register
+        
+    private:
+
+        struct Registers
         {
-            WORD _reg;
             struct
             {
-                BYTE _lo;
-                BYTE _hi;
+                union
+                {
+                    struct
+                    {
+                        uint8_t _f;
+                        uint8_t _a;
+                    };
+                    
+                    uint16_t _af;
+                };
             };
             
-            Register(WORD value)
+            struct
             {
-                _hi = value & 0xFF00;
-                _lo = value & 0x00FF;
-            }
-            
-            Register(BYTE hi, BYTE lo)
-            {
-                _hi = hi;
-                _lo = lo;
-            }
-            
-            Register& operator=(const WORD& value)
-            {
-                _hi = value & 0xFF00;
-                _lo = value & 0x00FF;
+                union
+                {
+                    uint8_t _c;
+                    uint8_t _b;
+                };
                 
-                return *this;
-            }
-        };
+                uint16_t _bc;
+            };
+            
+            struct
+            {
+                union
+                {
+                    struct
+                    {
+                        uint8_t _e;
+                        uint8_t _d;
+                    };
+                    uint16_t _de;
+                };
+            };
+            
+            struct
+            {
+                union
+                {
+                    struct
+                    {
+                        uint8_t _l;
+                        uint8_t _h;
+                    };
+                    uint16_t _hl;
+                };
+            };
+            
+            uint16_t _pStack;   //Stack Pointer
+            uint16_t _pc;       //Program Counter
+            
+        } _registers;
         
-        Register _regAF;
-        Register _regBC;
-        Register _regDE;
-        Register _regHL;
+      
+        unsigned char _cartridgeMemory;
         
-        WORD _pc;
-        Register _pStack;
     };
-    
 }
 
-#endif /* CPU_hpp */
