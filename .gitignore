@@ -70,3 +70,5 @@ ipch/
 *.opensdf
 *.sdf
 *.cachefile
+
+.DS_Store

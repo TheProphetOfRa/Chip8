@@ -417,7 +417,7 @@ namespace Chip8
         if (_v[(_opcode & 0x0F00) >> 8] > _v[(_opcode & 0x00F0) >> 4])
             _v[0xF] = 0;
         else
-            _v[0X0] = 1;
+            _v[0xF] = 1;
         _v[(_opcode & 0x0F00) >> 8] = _v[(_opcode & 0x00F0) >> 4] - _v[(_opcode & 0x0F00) >> 8];
         _pc+=2;
     }

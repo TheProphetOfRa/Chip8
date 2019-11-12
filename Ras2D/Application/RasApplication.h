@@ -17,17 +17,23 @@ namespace Ras2D
 	{
 	public:
 		static Application* Create();
-
+        
 		virtual void Run();
 
 		virtual void End();
 	protected:
-		Application() {}
+        Application();
 		virtual bool Init();
+        
+        virtual bool ProcessInput();
+        virtual bool Update();
+        virtual bool Render();
+    private:
 		virtual void MainLoop();
 	protected:
 		Director *_director;
-
+        
+        int _frameRate;
 	};
 }
 #endif

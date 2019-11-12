@@ -21,15 +21,19 @@ namespace Chip8
     public:
         static Application* Create();
         
-        void MainLoop();
+    protected:
+        bool Update() override;
+        bool Render() override;
     private:
         Application() {}
-        bool Init();
+        bool Init() override;
     private:
         Ras2D::Node *_node;
         CPU *_cpu;
         
         std::vector<bool> _keys;
+        
+        const unsigned char* _gfxBuffer;
     };
 }
 #endif /* defined(__OpenGL_RTT__Application__) */

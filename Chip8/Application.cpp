@@ -8,6 +8,8 @@
 
 #include "Application.h"
 
+#include <cstring>
+
 namespace Chip8
 {
     Application* Application::Create()
@@ -33,45 +35,56 @@ namespace Chip8
         
         for (int i = 0 ; i < 16 ; ++i) _keys.push_back(false);
         
+        _gfxBuffer = (const unsigned char*)calloc(64*32, sizeof(unsigned char));
+        
         return true;
     }
     
-    void Application::MainLoop()
+    bool Application::Update()
     {
         //application loop
-        while (_director->Update(_keys))
+        if (!_director->Update(_keys))
         {
-            for (int i = 0 ; i < _keys.size() ; ++i)
+            End();
+        }
+        
+        for (int i = 0 ; i < _keys.size() ; ++i)
+        {
+            if (_keys[i])
             {
-                if (_keys[i])
-                {
-                    _cpu->SetKey(i);
-                }
-                else
-                {
-                    _cpu->ResetKey(i);
-                }
+                _cpu->SetKey(i);
             }
-            _cpu->EmulateCycle();
-            if (_cpu->ShouldDraw())
+            else
             {
-                float data[64*32];
-                const unsigned char * gfx = _cpu->GetGfx();
-                for (int i = 0 ; i < 64 * 32 ; ++i)
-                {
-                    if (gfx[i] == 1)
-                    {
-                        data[i] = 255.0f;
-                    }
-                    else
-                    {
-                        data[i] = 0.0f;
-                    }
-                }
-                _node->DrawTexture(data);
-				_director->Draw();
+                _cpu->ResetKey(i);
             }
         }
-		End();
+        _cpu->EmulateCycle();
+        if (_cpu->ShouldDraw())
+        {
+            _gfxBuffer = _cpu->GetGfx();
+        }
+        
+        return true;
+    }
+
+    bool Application::Render()
+    {
+        float data[64*32];
+        for (int i = 0 ; i < 64 * 32 ; ++i)
+        {
+            if (_gfxBuffer[i] == 1)
+            {
+                data[i] = 255.0f;
+            }
+            else
+            {
+                data[i] = 0.0f;
+            }
+        }
+        _node->DrawTexture(data);
+        _director->Draw();
+        
+        return true;
     }
 }

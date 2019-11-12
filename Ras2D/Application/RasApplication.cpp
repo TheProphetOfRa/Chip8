@@ -20,6 +20,11 @@ namespace Ras2D
 		return nullptr;
 	}
 
+    Application::Application()
+    : _frameRate(30)
+    {
+    }
+
 	bool Application::Init()
 	{
 		_director = Director::GetInstance();
@@ -28,6 +33,21 @@ namespace Ras2D
 		return true;
 	}
 
+    bool Application::ProcessInput()
+    {
+        return true;
+    }
+    
+    bool Application::Update()
+    {
+        return true;
+    }
+
+    bool Application::Render()
+    {
+        return true;
+    }
+
 	void Application::Run()
 	{
 		MainLoop();
@@ -35,11 +55,24 @@ namespace Ras2D
 
 	void Application::MainLoop()
 	{
-		End();
+		while (true)
+        {
+            ProcessInput();
+            
+            //TODO: some kind of fixed update logic
+            // render fast, tick constant
+            bool shouldProcessFrame = true;
+            
+            if (shouldProcessFrame)
+                Update();
+            
+            Render();
+        }
 	}
 
 	void Application::End()
 	{
 		_director->Destroy();
+        _director = nullptr;
 	}
 }

@@ -14,18 +14,20 @@
 
 namespace GB
 {
-
-
     CPU::CPU()
     {
-
     }
     
+    bool CPU::Init()
+    {
+        return true;
+    }
+
     bool CPU::LoadGame(const char *filename)
     {
         bool result = false;
         
-        memset(_cartridgeMemory, 0, sizeof(_cartridgeMemory));
+        memset(&_cartridgeMemory, 0, sizeof(_cartridgeMemory));
         
         FILE* rom = nullptr;
         rom = Ras2D::FileUtils::GetFile(filename, "rb");
@@ -33,7 +35,7 @@ namespace GB
         if (rom)
         {
             result = true;
-            read(_cartridgeMemory, 1, 0x200000, rom);
+            fread(&_cartridgeMemory, 1, 0x200000, rom);
         }
         
         fclose(rom);
@@ -43,7 +45,7 @@ namespace GB
     
     void CPU::EmulateCycle()
     {
-        _opcode = Fetch();
-        Execute();
+//        _opcode = Fetch();
+//        Execute();
     }
 }
