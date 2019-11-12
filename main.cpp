@@ -6,17 +6,20 @@
 //  Copyright (c) 2014 David Hodgkinson. All rights reserved.
 //
 
-#include "Chip8/Application.h"
-#include "GB/Application.h"
+#include "Chip8/Chip8Application.h"
+#include "GB/GBApplication.h"
 
 #include <assert.h>
 #include <iostream>
 
 int main(int argc, const char * argv[])
 {
-	Chip8::Application* app = Chip8::Application::Create();
+	Ras2D::Application* app = Chip8::Chip8Application::Create();
     //GB::Application* app = GB::Application::Create();
 	assert(app);
+    
+    app->OnInitComplete();
+    
 	app->Run();
 
     return 0;

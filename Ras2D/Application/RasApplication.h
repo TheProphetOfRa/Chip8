@@ -6,23 +6,30 @@
 //  Copyright (c) 2014 David Hodgkinson. All rights reserved.
 //
 
-#ifndef __Ras2D__Application__
-#define __Ras2D__Application__
+#pragma once
 
 #include "Controller/Director.h"
+#include "Controller/RenderManager.h"
 
 namespace Ras2D
 {
 	class Application
 	{
 	public:
-		static Application* Create();
+        static Application* GetInstance();
+        
+        ~Application();
+        
+        RenderManager* GetRenderManager() { return _renderManager; }
+        Director* GetDirector() { return _director; }
+        
+        virtual bool OnInitComplete();
         
 		virtual void Run();
-
 		virtual void End();
 	protected:
         Application();
+                
 		virtual bool Init();
         
         virtual bool ProcessInput();
@@ -32,8 +39,10 @@ namespace Ras2D
 		virtual void MainLoop();
 	protected:
 		Director *_director;
+        RenderManager *_renderManager;
         
         int _frameRate;
+        
+        static Application* sInstance;
 	};
 }
-#endif

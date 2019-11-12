@@ -6,13 +6,13 @@
 //  Copyright © 2015 David Hodgkinson. All rights reserved.
 //
 
-#include "Application.h"
+#include "GBApplication.h"
 
 namespace GB
 {
-    Application* Application::Create()
+    Ras2D::Application* GBApplication::Create()
     {
-        auto result = new Application();
+        auto* result = new GBApplication();
         if (result && result->Init())
         {
             return result;
@@ -21,22 +21,17 @@ namespace GB
         return nullptr;
     }
     
-    bool Application::Init()
+    bool GBApplication::Init()
     {
         Ras2D::Application::Init();
         
-        _cpu = new GB::CPU();
+        _cpu = new GBCPU();
         _cpu->Init();
         _cpu->LoadGame("");
         
-        _node = Ras2D::Node::Create();
-        _director->AddNode(_node);
+        _display = Ras2D::Node::Create();
+        _renderManager->SetRootNode(_display);
         
         return true;
-    }
-    
-    void Application::MainLoop()
-    {
-        _cpu->EmulateCycle();
     }
 }

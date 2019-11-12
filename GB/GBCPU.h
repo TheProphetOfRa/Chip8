@@ -12,11 +12,11 @@
 
 namespace GB
 {
-    class CPU
+    class GBCPU
     {
     public:
-        CPU();
-        ~CPU();
+        GBCPU();
+        ~GBCPU();
         
         bool Init();
         

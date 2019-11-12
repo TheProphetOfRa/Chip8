@@ -6,7 +6,7 @@
 //  Copyright © 2015 David Hodgkinson. All rights reserved.
 //
 
-#include "CPU.h"
+#include "GBCPU.h"
 
 #include "Util/FileUtils.h"
 
@@ -14,16 +14,16 @@
 
 namespace GB
 {
-    CPU::CPU()
+    GBCPU::GBCPU()
     {
     }
     
-    bool CPU::Init()
+    bool GBCPU::Init()
     {
         return true;
     }
 
-    bool CPU::LoadGame(const char *filename)
+    bool GBCPU::LoadGame(const char *filename)
     {
         bool result = false;
         
@@ -43,7 +43,7 @@ namespace GB
         return result;
     }
     
-    void CPU::EmulateCycle()
+    void GBCPU::EmulateCycle()
     {
 //        _opcode = Fetch();
 //        Execute();

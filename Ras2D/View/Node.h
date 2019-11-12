@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 David Hodgkinson. All rights reserved.
 //
 
-#ifndef __Ras2D__Node__
-#define __Ras2D__Node__
-
-#include "Controller/Director.h"
+#pragma once
 
 #include "Math/BaseMath.h"
+
+#include <GL/glew.h>
+
 namespace Ras2D
 {
 	class Node
@@ -27,10 +27,10 @@ namespace Ras2D
 		const GLuint& GetVAO() const { return _vao; }
 		const GLuint& GetShaderProgram() const { return _shader; }
 
-		virtual void Draw() const;
+		virtual void Render() const;
 		virtual void Update();
 
-		virtual void DrawTexture(const float * data);
+		virtual void SetTexture(const float * data);
 	protected:
 		Node() {}
 		bool Init();
@@ -46,5 +46,3 @@ namespace Ras2D
         //240
 	};
 }
-
-#endif

@@ -1,4 +1,4 @@
-#include "cpu.h"
+#include "Chip8CPU.h"
 
 #include "Util/FileUtils.h"
 
@@ -34,7 +34,7 @@ namespace Chip8
         0x7, 0x8, 0x9, 0xe, 0xa, 0x0, 0xb, 0xf
     };
     
-    void CPU::Init(void)
+    void Chip8CPU::Init(void)
     {
         _pc = 0x200; //Program starts at 0x200
         _opcode = 0; //Reset current opcode
@@ -55,7 +55,7 @@ namespace Chip8
         _soundTimer = 0; //Reset the sound timer
     }
 
-    bool CPU::LoadGame(const char *filename)
+    bool Chip8CPU::LoadGame(const char *filename)
     {
         printf("Loading: %s\n", filename);
         
@@ -108,19 +108,19 @@ namespace Chip8
         return true;
     }
 
-    void CPU::EmulateCycle(void)
+    void Chip8CPU::EmulateCycle(void)
     {
         _opcode = Fetch(); //Fetch the next opcode
         Execute(); //Execute the opcode
         UpdateTimers(); //Update the delay and audio timer
     }
 
-    unsigned short CPU::Fetch(void) const
+    unsigned short Chip8CPU::Fetch(void) const
     {
         return _memory[_pc] << 8 | _memory[_pc+1]; //Grab two locations in memory and return them to be saved
     }
 
-    void CPU::Execute(void)
+    void Chip8CPU::Execute(void)
     {
         switch (_opcode & 0xF000)
         {
@@ -143,7 +143,7 @@ namespace Chip8
         }
     }
 
-    void CPU::UpdateTimers(void)
+    void Chip8CPU::UpdateTimers(void)
     {
         if (_delayTimer > 0) --_delayTimer;
         if (_soundTimer > 0)
@@ -155,7 +155,7 @@ namespace Chip8
         }
     }
     
-    const unsigned char * CPU::GetGfx()
+    const unsigned char * Chip8CPU::GetGfx()
     {
         unsigned char * rtn = new unsigned char[kScreenWidth * kScreenHeight];
         for (int i = 0 ; i < kScreenWidth * kScreenHeight ; i++)
@@ -164,19 +164,19 @@ namespace Chip8
         return rtn;
     }
 
-    void CPU::SetKey(int code)
+    void Chip8CPU::SetKey(int code)
     {
         _keys[kKeycodes[code]] = 1;
     }
     
-    void CPU::ResetKey(int code)
+    void Chip8CPU::ResetKey(int code)
     {
         _keys[kKeycodes[code]] = 0;
     }
     
 #pragma mark - Opcodes
     
-    void CPU::ExecuteZeroCode()
+    void Chip8CPU::ExecuteZeroCode()
     {
         switch (_opcode & 0x000F)
         {
@@ -186,13 +186,13 @@ namespace Chip8
     }
     
     //1NNN Jump to address NNN
-    void CPU::Jump()
+    void Chip8CPU::Jump()
     {
         _pc = _opcode & 0x0FFF;
     }
     
     //2NNN call subroutine at NNN
-    void CPU::Call()
+    void Chip8CPU::Call()
     {
         //Push the memory location onto the stack for the subroutine return
         _stack[_pStack] = _pc;
@@ -201,7 +201,7 @@ namespace Chip8
     }
     
     //3XNN Skip next instruction if v[X] == NN
-    void CPU::IfEqual()
+    void Chip8CPU::IfEqual()
     {
         if (_v[(_opcode & 0x0F00) >> 8] == (_opcode & 0x00FF))
             _pc += 4;
@@ -210,7 +210,7 @@ namespace Chip8
     }
     
     //4XNN Skip next instruction if v[X] != NN
-    void CPU::IfNotEqual()
+    void Chip8CPU::IfNotEqual()
     {
         if (_v[(_opcode & 0x0F00) >> 8] != (_opcode & 0x00FF))
             _pc += 4;
@@ -219,7 +219,7 @@ namespace Chip8
     }
     
     //5XY0 Skip next instruction if v[X] == v[Y]
-    void CPU::IfEqualRegister()
+    void Chip8CPU::IfEqualRegister()
     {
         if (_v[(_opcode & 0X0F00) >> 8] == _v[(_opcode & 0x00F0) >> 4])
             _pc += 4;
@@ -228,20 +228,20 @@ namespace Chip8
     }
     
     //6XNN Sets v[X] to NN
-    void CPU::Assign()
+    void Chip8CPU::Assign()
     {
         _v[(_opcode & 0x0F00) >> 8] = _opcode & 0x00FF;
         _pc+=2;
     }
     
     //7XNN Adds NN to v[X]
-    void CPU::Add()
+    void Chip8CPU::Add()
     {
         _v[(_opcode & 0x0F00) >> 8] += _opcode & 0x00FF;
         _pc+=2;
     }
     
-    void CPU::ExecuteEightCode()
+    void Chip8CPU::ExecuteEightCode()
     {
         switch (_opcode & 0x000F)
         {
@@ -257,7 +257,7 @@ namespace Chip8
         }
     }
     
-    void CPU::IfNotEqualRegister()
+    void Chip8CPU::IfNotEqualRegister()
     {
         if (_v[(_opcode & 0x0F00) >> 8] != _v[(_opcode & 0x00F0) >> 4])
             _pc += 4;
@@ -266,27 +266,27 @@ namespace Chip8
     }
     
     //Set I to the adress 0x0NNN
-    void CPU::SetAddress()
+    void Chip8CPU::SetAddress()
     {
         _I = _opcode & 0x0FFF;
         _pc += 2;
     }
     
     //Jump to address at 0x0NNN + v[0]
-    void CPU::JumpAddress()
+    void Chip8CPU::JumpAddress()
     {
         _pc = (_opcode & 0x0FFF) + _v[0];
     }
     
     //Set v[x] to random number & 0x00NN
-    void CPU::Rand()
+    void Chip8CPU::Rand()
     {
         _v[(_opcode & 0x0F00) >> 8] = (rand() % 0xFF) & (_opcode & 0x00FF);
         _pc+=2;
     }
     
     //Draws sprite at coords (v[x], v[y]) with width 8 and height N
-    void CPU::RenderSprite()
+    void Chip8CPU::RenderSprite()
     {
         const unsigned short x = _v[(_opcode & 0x0F00) >> 8];
         const unsigned short y = _v[(_opcode & 0x00F0) >> 4];
@@ -310,7 +310,7 @@ namespace Chip8
         _pc+=2;
     }
     
-    void CPU::ExecuteECode()
+    void Chip8CPU::ExecuteECode()
     {
         switch (_opcode & 0x00FF)
         {
@@ -319,7 +319,7 @@ namespace Chip8
         }
     }
     
-    void CPU::ExecuteFCode()
+    void Chip8CPU::ExecuteFCode()
     {
         switch (_opcode & 0x00FF)
         {
@@ -337,14 +337,14 @@ namespace Chip8
     
 #pragma mark - 0 Codes
     
-    void CPU::ClearScreen()
+    void Chip8CPU::ClearScreen()
     {
         for (int i = 0 ; i < (64 * 32) ; ++i) _gfx[i] = 0x0;
         _drawFlag = true;
         _pc+=2;
     }
     
-    void CPU::ReturnFromSub()
+    void Chip8CPU::ReturnFromSub()
     {
         --_pStack;
         _pc = _stack[_pStack];
@@ -354,35 +354,35 @@ namespace Chip8
 #pragma mark - 8 Codes
     
     //Set v[X] to the value of v[Y]
-    void CPU::AssignRegister()
+    void Chip8CPU::AssignRegister()
     {
         _v[(_opcode & 0x0F00) >> 8] = _v[(_opcode & 0x00F0) >> 4];
         _pc+=2;
     }
     
     //Set v[X] to v[X] OR v[Y]
-    void CPU::Or()
+    void Chip8CPU::Or()
     {
         _v[(_opcode & 0x0F00) >> 8] |= _v[(_opcode & 0x00F0) >> 4];
         _pc+=2;
     }
     
     //Set v[X] to v[X] AND v[Y]
-    void CPU::And()
+    void Chip8CPU::And()
     {
         _v[(_opcode & 0x0F00) >> 8] &= _v[(_opcode & 0x00F0) >> 4];
         _pc+=2;
     }
     
     //Set v[X] to v[X] XOR v[Y]
-    void CPU::Xor()
+    void Chip8CPU::Xor()
     {
         _v[(_opcode & 0x0F00) >> 8] ^= _v[(_opcode & 0x00F0) >> 4];
         _pc+=2;
     }
     
     //Adds v[Y] to v[X] ands sets carry bit if required
-    void CPU::AddRegister()
+    void Chip8CPU::AddRegister()
     {
         if (_v[(_opcode & 0x00F0) >> 4] > (0xFF - _v[(_opcode & 0x0F00) >> 8]))
             _v[0xF] = 1;
@@ -393,7 +393,7 @@ namespace Chip8
     }
     
     //Subtracts v[Y] from v[X] and sets carry bit if required
-    void CPU::SubtractRegister()
+    void Chip8CPU::SubtractRegister()
     {
         if (_v[(_opcode & 0x00F0) >> 4] > _v[(_opcode & 0x0F00) >> 8])
             _v[0xF] = 0;
@@ -404,7 +404,7 @@ namespace Chip8
     }
     
     //Shifts v[X] right by one stores the LSB in v[F](before shift)
-    void CPU::ShiftRight()
+    void Chip8CPU::ShiftRight()
     {
         _v[0xF] = _v[(_opcode & 0x0F00) >> 8] & 0x1;
         _v[(_opcode & 0x0F00) >> 8] >>= 1;
@@ -412,7 +412,7 @@ namespace Chip8
     }
     
     //v[X] = v[Y] - v[X], v[F] = 0 when borrow required
-    void CPU::Subtract()
+    void Chip8CPU::Subtract()
     {
         if (_v[(_opcode & 0x0F00) >> 8] > _v[(_opcode & 0x00F0) >> 4])
             _v[0xF] = 0;
@@ -423,7 +423,7 @@ namespace Chip8
     }
     
     //Shift v[X] left by one and set v[F] to MSB before shift
-    void CPU::ShiftLeft()
+    void Chip8CPU::ShiftLeft()
     {
         _v[0xF] = _v[(_opcode & 0x0F00) >> 8] >> 7;
         _v[(_opcode & 0x0F00) >> 8] <<= 1;
@@ -434,7 +434,7 @@ namespace Chip8
     
     //0xEX9E skips the next instruction
     //if the key stored in VX is pressed
-    void CPU::KeyPressed()
+    void Chip8CPU::KeyPressed()
     {
         if (_keys[_v[(_opcode & 0x0F00) >> 8]] != 0)
             _pc += 4;
@@ -443,7 +443,7 @@ namespace Chip8
     }
     
     //Skips the next instruction if the key in v[X] isn't pressed
-    void CPU::KeyNotPressed()
+    void Chip8CPU::KeyNotPressed()
     {
         if (_keys[_v[(_opcode & 0x0F00) >> 8]] == 0)
             _pc += 4;
@@ -454,14 +454,14 @@ namespace Chip8
 #pragma mark - F Codes
     
     //Set v[X] to the value of delayTimer
-    void CPU::GetDelayTimer()
+    void Chip8CPU::GetDelayTimer()
     {
         _v[(_opcode & 0x0F00) >> 8] = _delayTimer;
         _pc+=2;
     }
     
     //Wait for a key press then store it in v[X]
-    void CPU::GetKeyPressed()
+    void Chip8CPU::GetKeyPressed()
     {
         bool keyPress = false;
         for (int i = 0 ; i < 16 ; ++i)
@@ -477,21 +477,21 @@ namespace Chip8
     }
     
     //Sets the delayTimer to v[X]
-    void CPU::SetDelayTimer()
+    void Chip8CPU::SetDelayTimer()
     {
         _delayTimer = _v[(_opcode & 0x0F00) >> 8];
         _pc+=2;
     }
     
     //Set the sound timer to v[]
-    void CPU::SetSoundTimer()
+    void Chip8CPU::SetSoundTimer()
     {
         _soundTimer = _v[(_opcode & 0x0F00) >> 8];
         _pc+=2;
     }
     
     //Adds v[X] to I
-    void CPU::AddAddress()
+    void Chip8CPU::AddAddress()
     {
         if (_I + _v[(_opcode & 0x0F00) >> 8] > 0xFFF) //Check if we need to set the carry flag
             _v[0xF] = 1;
@@ -502,14 +502,14 @@ namespace Chip8
     }
     
     //Sets I to the location of the sprite for the character in v[X].
-    void CPU::HexSprite()
+    void Chip8CPU::HexSprite()
     {
         _I = _v[(_opcode & 0x0F00) >> 8] * 0.5;
         _pc+=2;
     }
     
     //Stores the binary representation of v[X] at I, I+1 and I+2
-    void CPU::StoreBCD()
+    void Chip8CPU::StoreBCD()
     {
         _memory[_I]   = _v[(_opcode & 0x0F00) >> 8] / 100;
         _memory[_I+1] = (_v[(_opcode & 0x0F00) >> 8] / 10) % 10;
@@ -518,7 +518,7 @@ namespace Chip8
     }
     
     //Stores v[0] to v[X] in memory starting at address I
-    void CPU::SaveRegisters()
+    void Chip8CPU::SaveRegisters()
     {
         for (int i = 0 ; i < ((_opcode & 0x0F00) >> 8) ; ++i)
             _memory[_I+i] = _v[i];
@@ -528,7 +528,7 @@ namespace Chip8
     }
     
     //Fills v[0] to v[X] with values from memory starting at I
-    void CPU::LoadRegisters()
+    void Chip8CPU::LoadRegisters()
     {
         for (int i = 0 ; i <= ((_opcode & 0x0F00) >> 8) ; ++i)
             _v[i] = _memory[_I+i];

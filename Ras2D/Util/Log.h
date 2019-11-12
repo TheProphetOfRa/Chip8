@@ -13,7 +13,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-#include "Controller/Director.h"
+#include "Controller/RenderManager.h"
 
 namespace Ras2D
 {

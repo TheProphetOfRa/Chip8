@@ -2,7 +2,7 @@
 
 namespace Chip8
 {
-    class CPU
+    class Chip8CPU
     {
     public:
         const static int kScreenWidth = 64;

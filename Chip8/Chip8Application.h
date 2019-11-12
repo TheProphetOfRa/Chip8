@@ -6,34 +6,35 @@
 //  Copyright (c) 2014 David Hodgkinson. All rights reserved.
 //
 
-#ifndef __Chip8__Application__
-#define __Chip8__Application__
+#pragma once
 
-#include "Chip8/cpu.h"
+#include "Chip8CPU.h"
 
 #include "Application/RasApplication.h"
 #include "View/Node.h"
 
+#include <vector>
+
 namespace Chip8
 {
-    class Application : public Ras2D::Application
+    class Chip8Application : public Ras2D::Application
     {
     public:
-        static Application* Create();
+        static Ras2D::Application* Create();
         
     protected:
         bool Update() override;
-        bool Render() override;
     private:
-        Application() {}
+        Chip8Application() {}
+        
         bool Init() override;
+        bool OnInitComplete() override;
     private:
-        Ras2D::Node *_node;
-        CPU *_cpu;
+        Ras2D::Node *_display;
+        Chip8CPU *_cpu;
         
         std::vector<bool> _keys;
         
         const unsigned char* _gfxBuffer;
     };
 }
-#endif /* defined(__OpenGL_RTT__Application__) */

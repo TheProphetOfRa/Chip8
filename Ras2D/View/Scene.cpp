@@ -8,7 +8,7 @@
 
 #include "Scene.h"
 
-#include "Controller/Director.h"
+#include "Application/RasApplication.h"
 
 namespace Ras2D
 {
@@ -27,7 +27,7 @@ namespace Ras2D
 	{
 		Node::Init();
 
-		const Size& winSize = Director::GetInstance()->GetWindowSize();
+		const Size& winSize = Application::GetInstance()->GetRenderManager()->GetWindowSize();
 
 		SetSize(winSize);
 		SetPosition({winSize.width / 2, winSize.height / 2});

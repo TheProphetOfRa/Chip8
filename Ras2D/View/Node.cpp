@@ -8,6 +8,8 @@
 
 #include "Node.h"
 
+#include "Application/RasApplication.h"
+
 namespace Ras2D
 {
 	Node* Node::Create()
@@ -29,7 +31,7 @@ namespace Ras2D
 
 		GenBuffers();
 
-		_shader = Director::GetInstance()->LoadShader("Resources/Shaders/array");
+        _shader = Application::GetInstance()->GetRenderManager()->LoadShader("Resources/Shaders/array");
 
 		return true;
 	}
@@ -121,7 +123,7 @@ namespace Ras2D
 		GenBuffers();
 	}
 
-	void Node::Draw() const
+	void Node::Render() const
 	{
 		glUseProgram(_shader);
 		glBindVertexArray(_vao);
@@ -133,7 +135,7 @@ namespace Ras2D
 
 	}
 
-	void Node::DrawTexture(const float *data)
+	void Node::SetTexture(const float *data)
 	{
 		float drawData[64 * 32][4];
 		for (int i = 0; i < 64 * 32; ++i)

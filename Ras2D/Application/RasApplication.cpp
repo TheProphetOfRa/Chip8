@@ -10,28 +10,41 @@
 
 namespace Ras2D
 {
-	Application* Application::Create()
-	{
-		auto result = new Application();
-		if (result && result->Init())
-		{
-			return result;
-		}
-		return nullptr;
-	}
+    Application* Application::sInstance = nullptr;
+    
+    Application* Application::GetInstance()
+    {
+        return sInstance;
+    }
 
     Application::Application()
     : _frameRate(30)
     {
+        sInstance = this;
+    }
+
+    Application::~Application()
+    {
+        End();
     }
 
 	bool Application::Init()
 	{
-		_director = Director::GetInstance();
-		_director->Init();
+        bool success = true;
+        
+		_director = new Director();
+		success = _director->Init();
 
-		return true;
+        _renderManager = new RenderManager();
+        success &= _renderManager->Init();
+        
+		return success;
 	}
+
+    bool Application::OnInitComplete()
+    {
+        return true;
+    }
 
     bool Application::ProcessInput()
     {
@@ -45,6 +58,7 @@ namespace Ras2D
 
     bool Application::Render()
     {
+        _renderManager->Render();
         return true;
     }
 
@@ -74,5 +88,8 @@ namespace Ras2D
 	{
 		_director->Destroy();
         _director = nullptr;
+        
+        _renderManager->Destroy();
+        _renderManager = nullptr;
 	}
 }

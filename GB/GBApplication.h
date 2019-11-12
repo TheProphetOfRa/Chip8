@@ -9,25 +9,26 @@
 #ifndef Application_h
 #define Application_h
 
-#include "GB/CPU.h"
+#include "GBCPU.h"
 
 #include "Application/RasApplication.h"
 #include "View/Node.h"
 
+#include <vector>
+
 namespace GB
 {
-    class Application : public Ras2D::Application
+    class GBApplication : public Ras2D::Application
     {
     public:
-        static Application* Create();
+        static Ras2D::Application* Create();
         
-        void MainLoop();
     private:
-        Application() {}
-        bool Init();
+        GBApplication() {}
+        bool Init() override;
     private:
-        Ras2D::Node *_node;
-        CPU *_cpu;
+        Ras2D::Node *_display;
+        GBCPU *_cpu;
         
         std::vector<bool> _keys;
     };
