@@ -24,7 +24,7 @@ namespace Chip8
     {       
 		Ras2D::Application::Init();
 
-        _cpu = new Chip8::CPU();
+        _cpu = new Chip8CPU();
         _cpu->Init();
         _cpu->LoadGame("Resources/pong2.c8");
         

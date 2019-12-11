@@ -9,10 +9,12 @@
 #ifndef __Chip8__Application__
 #define __Chip8__Application__
 
-#include "Chip8/cpu.h"
+#include "Chip8/Chip8CPU.h"
 
 #include "Application/RasApplication.h"
 #include "View/Node.h"
+
+#include <vector>
 
 namespace Chip8
 {
@@ -27,7 +29,7 @@ namespace Chip8
         bool Init();
     private:
         Ras2D::Node *_node;
-        Chip8::CPU *_cpu;
+        Chip8CPU *_cpu;
         
         std::vector<bool> _keys;
     };

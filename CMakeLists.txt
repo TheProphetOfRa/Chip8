@@ -13,7 +13,7 @@ add_subdirectory(Source/Ras2D)
 include_directories(Source)
 include_directories(Source/Ras2D/src)
 
-file (GLOB SOURCES Source/*.cpp src/*/*.cpp)
+file (GLOB_RECURSE SOURCES "Source" "*.cpp" "*.h")
 
 if (APPLE)
     add_executable(Emu MACOSX_BUNDLE ${SOURCES})
@@ -25,3 +25,4 @@ endif()
 
 target_link_libraries(Emu Ras2D)
 target_link_libraries(Emu glfw)
+target_link_libraries(Emu glew)
