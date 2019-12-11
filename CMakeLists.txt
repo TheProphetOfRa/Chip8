@@ -22,12 +22,29 @@ set(SOURCES
     Source/GB/GBCPU.cpp
     Source/main.cpp)
 
+file(GLOB_RECURSE RESOURCES 
+    Resources/*
+    Resources/Shaders/*
+)
+
+set_source_files_properties(
+    ${RESOURCES}
+    PROPERTIES
+    MACOSX_PACKAGE_LOCATION Resources
+)
+
 if (APPLE)
     add_executable(Emu MACOSX_BUNDLE ${SOURCES})
 elseif(WIN32)
     add_executable(Emu WIN32 ${SOURCES})
 else()
     add_executable(Emu ${SOURCES})
+endif()
+
+if (APPLE) # not sure if this is the best way to do this, but it works for now
+    set(RESOURCE_DIR Resources)
+    target_sources(Emu PUBLIC ${RESOURCE_DIR})
+    set_source_files_properties(${RESOURCE_DIR} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
 endif()
 
 target_link_libraries(Emu ras2d)
