@@ -29,7 +29,7 @@ namespace Chip8
         _cpu->LoadGame("Resources/pong2.c8");
         
         _node = Ras2D::Node::Create();
-        _director->AddNode(_node);
+        _director->(_node);
         
         for (int i = 0 ; i < 16 ; ++i) _keys.push_back(false);
         
